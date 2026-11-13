@@ -396,7 +396,7 @@ table.people { border-collapse: collapse; width: 100%; font-size: 16px; }
 <tr><th scope="row">Gamification lead<span>Chef Miso</span></th><td>To understand the goals of the initiative and the incentive mechanics.</td></tr>
 <tr><th scope="row">Brand Owner<span>Chef Kids</span></th><td>To hear her aspirations for the brand and what should stay recognisably PancakeSwap.</td></tr>
 <tr><th scope="row">Developer or Tech Lead<span>Engineering</span></th><td>To learn about the limits of the current implementation, the tech stack and security considerations.</td></tr>
-<tr><th scope="row">Designer<span>Not on leave</span></th><td>To understand the decisions that led to the PWA as it is today.</td></tr>
+<tr><th scope="row">Designer</th><td>To understand the decisions that led to the PWA as it is today.</td></tr>
 </table></div></div>
 </li>
 <li class="step" id="step-3">
@@ -618,8 +618,8 @@ table.people { border-collapse: collapse; width: 100%; font-size: 16px; }
 <div class="pricebar" id="pricebar" role="region" aria-label="Package and estimate">
   <div class="wrap pb-row">
     <div class="pb-pkgs" role="radiogroup" aria-label="Package">
-      <button class="pkg" type="button" role="radio" aria-checked="false" data-pkg="core"><span class="p-name">Core</span><span class="p-price">€47–64k</span></button>
-      <button class="pkg" type="button" role="radio" aria-checked="false" data-pkg="recommended"><span class="p-name">Recommended</span><span class="p-price">€65–79k</span></button>
+      <button class="pkg" type="button" role="radio" aria-checked="false" data-pkg="core"><span class="p-name">Core</span><span class="p-price">€47–61k</span></button>
+      <button class="pkg" type="button" role="radio" aria-checked="false" data-pkg="recommended"><span class="p-name">Recommended</span><span class="p-price">€69–83k</span></button>
       <button class="pkg" type="button" role="radio" aria-checked="false" data-pkg="custom"><span class="p-name">Custom</span><span class="p-price">€65–189k</span></button>
       <button class="pkg" type="button" role="radio" aria-checked="false" data-pkg="partner"><span class="p-name">Design Partner</span><span class="p-price">€120–300k</span></button>
     </div>
@@ -652,7 +652,7 @@ table.people { border-collapse: collapse; width: 100%; font-size: 16px; }
   };
   var PACKAGES = {
     core:        { name: "Core",               range: [47, 61],   desc: "Core: The must have activities to deliver WE3 quality. Few revisions." },
-    recommended: { name: "Recommended",        range: [65, 79],   desc: "Recommended: Core + Where we want to go beyond a standard app redesign." },
+    recommended: { name: "Recommended",        range: null,       desc: "Recommended: Core + Where we want to go beyond a standard app redesign." },
     custom:      { name: "Custom",             range: null,       desc: "Custom: Core + The options as you’ve set them. The price estimate follows your settings.", note: "Note: Only a vague estimate that has to be scoped with the resp. experts." },
     partner:     { name: "Design Partnership", range: [120, 300], desc: "Design Partner: three to four months. Everything above, plus strategy, storytelling and a brand refresh." }
   };
@@ -696,7 +696,8 @@ table.people { border-collapse: collapse; width: 100%; font-size: 16px; }
     if (p.range) return p.range;
     var mid = BASE_MID;
     KEYS.forEach(function (k) { var l = state.levels[k]; if (l > 0) mid += COST[k][l - 1]; });
-    var lo = Math.min(164, Math.max(65, Math.round(mid * 0.92))), hi = Math.min(500, Math.max(lo + 5, Math.round(mid * 1.1)));
+    if (mid === BASE_MID) return PACKAGES.core.range;
+    var lo = Math.min(164, Math.round(mid * 0.92)), hi = Math.min(500, Math.max(lo + 5, Math.round(mid * 1.1)));
     return [lo, hi];
   }
 
