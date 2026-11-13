@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WE3 × PancakeSwap: App redesign proposal</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20198%20199%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20fill%3D%22%23F4EEFF%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M98.552%20198.607c-29.49-.022-53.246-7.027-69.844-19.609C11.91%20166.265%203%20148.195%203%20127.748c0-19.701%208.891-33.907%2018.952-43.51%207.884-7.525%2016.584-12.344%2022.642-15.117-1.37-4.162-3.079-9.61-4.608-15.238-2.046-7.53-4.053-16.366-4.053-22.84%200-7.663%201.687-15.36%206.238-21.34C46.98%203.385%2054.218%200%2062.926%200c6.806%200%2012.584%202.499%2017.108%206.81%204.324%204.12%207.202%209.593%209.189%2015.298%203.491%2010.024%204.85%2022.618%205.232%2035.187h8.341c.382-12.569%201.741-25.163%205.233-35.187%201.987-5.705%204.865-11.177%209.189-15.298C121.741%202.5%20127.519%200%20134.325%200c8.708%200%2015.947%203.385%2020.755%209.703%204.551%205.98%206.239%2013.677%206.239%2021.34%200%206.474-2.007%2015.31-4.054%2022.84-1.529%205.628-3.238%2011.076-4.608%2015.238%206.058%202.773%2014.759%207.592%2022.643%2015.118%2010.06%209.602%2018.952%2023.808%2018.952%2043.509%200%2020.447-8.911%2038.517-25.708%2051.25-16.598%2012.582-40.354%2019.587-69.844%2019.609h-.148z%22%20fill%3D%22%23633001%22%3E%3C/path%3E%3Cpath%20d%3D%22M62.926%207.288c-12.754%200-18.626%209.516-18.626%2022.675%200%2010.46%206.822%2031.408%209.621%2039.563.63%201.835-.36%203.844-2.164%204.555-10.222%204.031-40.39%2018.789-40.39%2052.588%200%2035.603%2030.658%2062.448%2087.191%2062.49h.135c56.534-.042%2087.19-26.887%2087.19-62.49%200-33.799-30.167-48.557-40.389-52.588-1.804-.71-2.794-2.72-2.164-4.555%202.799-8.154%209.621-29.103%209.621-39.563%200-13.16-5.871-22.675-18.626-22.675-18.36%200-22.936%2026.007-23.263%2053.92-.022%201.863-1.528%203.375-3.392%203.375H89.58c-1.863%200-3.37-1.512-3.391-3.375-.326-27.913-4.903-53.92-23.263-53.92z%22%20fill%3D%22%23D1884F%22%3E%3C/path%3E%3Cpath%20d%3D%22M98.693%20177.755c-41.538%200-87.253-22.235-87.325-51.018v.134c0%2035.632%2030.705%2062.491%2087.325%2062.491%2056.62%200%2087.325-26.859%2087.325-62.491v-.134c-.072%2028.783-45.787%2051.018-87.325%2051.018z%22%20fill%3D%22%23FEDC90%22%3E%3C/path%3E%3Cpath%20d%3D%22M75.614%20117.896c0%209.718-4.593%2014.779-10.258%2014.779-5.665%200-10.258-5.061-10.258-14.779s4.593-14.779%2010.258-14.779c5.665%200%2010.258%205.061%2010.258%2014.779zM142.288%20117.896c0%209.718-4.592%2014.779-10.257%2014.779-5.666%200-10.258-5.061-10.258-14.779s4.592-14.779%2010.258-14.779c5.665%200%2010.257%205.061%2010.257%2014.779z%22%20fill%3D%22%23633001%22%3E%3C/path%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<style>
+/* Ease, served from WE3's Framer CDN. To embed instead, replace the url() with
+   url(data:font/woff2;base64,PASTE_BASE64_HERE). Fallback: Nunito Sans. */
+@font-face {
+  font-family: "WE3 Ease";
+  src: url("https://framerusercontent.com/assets/WpqhWNiLpKOY0NF4TYpysi6lMU.woff2") format("woff2");
+  font-weight: 100 900; font-style: normal; font-display: swap;
+}
+
+:root {
+  --ink: #141414; --graphite: #3F3F3F; --grey: #A0A0A0; --mist: #DDDDDD; --fog: #ECECEC; --paper: #FBFBFB;
+  --blue: #2C6AFC; --blue-500: #5486FA; --blue-400: #87A9F7; --blue-300: #C0D2FC; --blue-200: #E2EBFE; --blue-100: #EFF4FF;
+
+  --bg: var(--paper);
+  --text: var(--ink);          /* headings and highlights */
+  --text-2: var(--graphite);   /* body */
+  --text-3: var(--graphite);   /* meta */
+  --faint: var(--grey);
+  --line: var(--mist);
+  --surface: var(--fog);
+  --accent: var(--blue);
+  --accent-hover: var(--blue-500);
+  --accent-text: var(--blue);
+  --accent-soft: var(--blue-100);
+  --accent-soft-2: var(--blue-200);
+  --accent-line: var(--blue-300);
+  --bar-soft: var(--blue-300);
+  --on-accent: var(--paper);
+  --header-bg: rgba(251, 251, 251, .86);
+
+  --font: "WE3 Ease", "Nunito Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --wrap: 1160px;
+  --pad: clamp(20px, 4.5vw, 56px);
+  --bar-h: 120px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: var(--ink); --text: #FFFFFF; --text-2: var(--mist); --text-3: var(--grey); --faint: var(--graphite);
+    --line: var(--graphite); --surface: rgba(63, 63, 63, .45);
+    --accent-text: var(--blue-400);
+    --accent-soft: rgba(44, 106, 252, .14); --accent-soft-2: rgba(84, 134, 250, .26); --accent-line: rgba(135, 169, 247, .5);
+    --bar-soft: rgba(84, 134, 250, .38);
+    --header-bg: rgba(20, 20, 20, .86);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: var(--ink); --text: #FFFFFF; --text-2: var(--mist); --text-3: var(--grey); --faint: var(--graphite);
+  --line: var(--graphite); --surface: rgba(63, 63, 63, .45);
+  --accent-text: var(--blue-400);
+  --accent-soft: rgba(44, 106, 252, .14); --accent-soft-2: rgba(84, 134, 250, .26); --accent-line: rgba(135, 169, 247, .5);
+  --bar-soft: rgba(84, 134, 250, .38);
+  --header-bg: rgba(20, 20, 20, .86);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+:root { padding-top: env(safe-area-inset-top, 0px); }
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 84px); scroll-padding-bottom: var(--bar-h); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text-2);
+  font-family: var(--font); font-size: 17px; line-height: 1.58;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: var(--bar-h);
+  transition: background-color .25s ease, color .25s ease;
+}
+svg { max-width: 100%; }
+a { color: var(--accent-text); text-underline-offset: 3px; }
+strong { color: var(--text); font-weight: 600; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+h1, h2, h3 { font-weight: 400; margin: 0; color: var(--text); }
+p { margin: 0 0 1em; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Header */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--header-bg); }
+.site-head {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--header-bg);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px); backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom: 1px solid transparent; transition: border-color .2s ease;
+}
+.site-head.scrolled { border-bottom-color: var(--line); }
+.site-head .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+.lockup { display: flex; align-items: center; gap: 14px; min-width: 0; color: var(--text); }
+.lockup .x { color: var(--faint); font-size: 18px; line-height: 1; }
+.lockup a { color: inherit; display: block; line-height: 0; border-radius: 4px; }
+.we3-mark { height: 20px; width: auto; display: block; color: var(--text); transition: color .25s ease; }
+.pcs-mark { height: 22px; width: auto; display: block; color: var(--text); transition: color .25s ease; }
+.theme-switch { appearance: none; border: 0; background: transparent; padding: 4px; margin: -4px; cursor: pointer; border-radius: 999px; }
+.theme-switch .track { position: relative; display: block; width: 44px; height: 26px; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); transition: background-color .25s ease; }
+.theme-switch .knob { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--paper); color: var(--ink); box-shadow: 0 1px 2px rgba(20,20,20,.2); display: grid; place-items: center; transition: transform .25s cubic-bezier(.3,.7,.2,1), background-color .25s ease; }
+.theme-switch .knob svg { width: 12px; height: 12px; }
+.theme-switch .moon { display: none; }
+.theme-switch[aria-checked="true"] .track { background: var(--accent); box-shadow: none; }
+.theme-switch[aria-checked="true"] .knob { transform: translateX(18px); background: var(--ink); color: var(--paper); }
+.theme-switch[aria-checked="true"] .sun { display: none; }
+.theme-switch[aria-checked="true"] .moon { display: block; }
+
+/* Hero */
+.hero { padding-top: clamp(56px, 11vw, 136px); padding-bottom: clamp(48px, 8vw, 96px); }
+.hero .for { color: var(--text-3); font-size: 16px; margin-bottom: 28px; }
+.hero h1 { font-size: clamp(2.5rem, 6.6vw, 5.4rem); line-height: 1.02; letter-spacing: -0.035em; max-width: 17ch; }
+.hero .lede { margin-top: 32px; max-width: 34em; font-size: clamp(1.05rem, 1.6vw, 1.22rem); line-height: 1.5; }
+.facts { margin: clamp(48px, 7vw, 80px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.facts div { padding: 18px 20px 0 0; }
+.facts dt { color: var(--text-3); font-size: 14px; }
+.facts dd { margin: 4px 0 0; font-size: clamp(1.1rem, 1.8vw, 1.4rem); letter-spacing: -0.01em; color: var(--text); }
+
+/* Sections */
+section { padding: clamp(56px, 9vw, 112px) 0; border-top: 1px solid var(--line); }
+.split { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(24px, 5vw, 72px); }
+.split > .side h2 { position: sticky; top: 104px; }
+.fit-side .stick { position: sticky; top: 104px; }
+.split > .fit-side h2 { position: static; }
+.shots { position: absolute; top: -10px; left: -6px; margin: 0; width: min(320px, 100%, calc((100vh - 104px - var(--bar-h) - 24px) * 0.4615)); aspect-ratio: 1170 / 2535; pointer-events: none; z-index: 2; }
+.shots img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  border-radius: 22px; box-shadow: 0 1px 2px rgba(20,20,20,.12), 0 18px 48px rgba(20,20,20,.22);
+  opacity: 0; transform: translateY(8px) scale(.98);
+  transition: opacity .22s ease, transform .3s cubic-bezier(.3,.7,.2,1);
+}
+.shots img.on { opacity: 1; transform: none; }
+.ref { text-decoration: underline dashed var(--blue-400); text-decoration-thickness: 2px; text-underline-offset: 4px; cursor: default; border-radius: 2px; transition: text-decoration-color .15s ease, color .15s ease; }
+.ref:hover, .ref:focus-visible, .ref.on { text-decoration-color: var(--accent); color: var(--text); }
+h2 { font-size: clamp(1.9rem, 3.8vw, 3rem); line-height: 1.05; letter-spacing: -0.025em; }
+.intro { max-width: 36em; font-size: 1.08rem; margin: 0; }
+
+/* Callouts */
+.callout {
+  margin: 4px 0 1.1em; padding: 14px 18px 15px;
+  background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;
+  color: var(--text); max-width: 40em;
+}
+.callout .c-label { display: block; font-size: 13px; font-weight: 600; color: var(--accent-text); margin-bottom: 3px; }
+.callout p { margin: 0; }
+.body > :last-child { margin-bottom: 0; }
+
+/* Fit */
+.fit article { padding: 26px 0; border-top: 1px solid var(--line); }
+.fit article:first-child { border-top: 0; padding-top: 4px; }
+.fit h3 { font-size: 1.35rem; letter-spacing: -0.015em; line-height: 1.25; margin-bottom: 10px; }
+.fit p { max-width: 38em; margin: 0; }
+.fit .fit-lead { font-size: clamp(1.3rem, 2.2vw, 1.65rem); line-height: 1.3; letter-spacing: -0.015em; color: var(--text); margin-bottom: 16px; }
+
+/* Core steps */
+.steps { list-style: none; margin: 40px 0 0; padding: 0; }
+.step { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr); column-gap: 16px; padding: 30px 0 34px; border-top: 1px solid var(--line); }
+.step .num { font-size: 1.7rem; line-height: 1.1; letter-spacing: -0.03em; color: var(--accent-text); font-variant-numeric: tabular-nums; }
+.title { font-size: 1.4rem; line-height: 1.2; letter-spacing: -0.015em; }
+.sum { color: var(--text); font-size: 1.05rem; margin: 6px 0 14px; max-width: 40em; }
+.s-main .body, .o-main .body { max-width: 40em; }
+.body ul { margin: 0 0 1em; padding-left: 1.1em; }
+.body ul.cols { columns: 2; column-gap: 32px; }
+.body li { margin-bottom: 4px; break-inside: avoid; }
+table.people { border-collapse: collapse; width: 100%; font-size: 16px; }
+.people th, .people td { text-align: left; vertical-align: top; padding: 10px 0; border-top: 1px solid var(--line); }
+.people tr:first-child th, .people tr:first-child td { border-top: 0; padding-top: 2px; }
+.people th { font-weight: 400; color: var(--text); width: 34%; padding-right: 20px; }
+.people th span { display: block; color: var(--text-3); font-size: 14px; }
+
+/* Options */
+.options { margin-top: 40px; }
+.option {
+  display: grid; grid-template-columns: 3.4rem minmax(0, 1fr) minmax(260px, 320px); column-gap: 16px;
+  padding: 30px 0 34px; border-top: 1px solid var(--line);
+}
+.option .letter { font-size: 1.7rem; line-height: 1.1; letter-spacing: -0.02em; color: var(--accent-text); }
+.option .o-ctl { padding-left: clamp(8px, 2vw, 24px); }
+.option[data-level="0"] .letter { color: var(--text-3); }
+.scale { display: flex; gap: 6px; align-items: stretch; }
+.scale button { appearance: none; font: inherit; cursor: pointer; border: 0; position: relative; }
+.scale .off {
+  font-size: 13px; padding: 0 12px; height: 34px; border-radius: 999px;
+  background: transparent; color: var(--text-2); box-shadow: inset 0 0 0 1.5px var(--line);
+}
+.scale .off[aria-checked="true"] { background: var(--text); color: var(--bg); box-shadow: none; }
+.meter { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
+.seg { height: 34px; background: var(--surface); color: var(--text-3); font-size: 12px; transition: background-color .15s ease, color .15s ease; }
+.seg:first-child { border-radius: 999px 4px 4px 999px; }
+.seg:last-child { border-radius: 4px 999px 999px 4px; }
+.seg:not(:first-child):not(:last-child) { border-radius: 4px; }
+.seg:hover { background: var(--accent-soft-2); }
+.seg.fill { background: var(--accent); color: var(--on-accent); }
+.seg.fill:hover { background: var(--accent-hover); }
+.scale .rec::after {
+  content: ""; position: absolute; left: 50%; bottom: -9px; width: 5px; height: 5px; margin-left: -2.5px;
+  border-radius: 50%; background: var(--accent-text);
+}
+.ends { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); margin: 14px 0 0 64px; }
+.level-desc { margin: 14px 0 6px; color: var(--text); font-size: 15.5px; min-height: 3em; }
+.level-desc b { font-weight: 600; }
+.rec-note { font-size: 13.5px; color: var(--accent-text); margin: 0; display: flex; align-items: center; gap: 8px; }
+.rec-note::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--accent-text); }
+.rec-note button { appearance: none; border: 0; background: none; font: inherit; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 0; }
+
+/* Timeline */
+.legend { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 14px; color: var(--text-3); margin: 32px 0 0; padding: 0; list-style: none; }
+.legend li { display: inline-flex; align-items: center; gap: 8px; }
+.legend i { width: 22px; height: 10px; border-radius: 3px; display: inline-block; }
+.legend .l-firm { background: var(--accent); }
+.legend .l-soft { background: var(--bar-soft); }
+.legend .l-out { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.scroll-x { overflow-x: auto; margin-top: 8px; padding: 34px 0 32px; -webkit-overflow-scrolling: touch; }
+.gantt { --lab: 260px; min-width: 1000px; font-size: 14px; }
+.g-row { display: grid; grid-template-columns: var(--lab) 1fr; align-items: center; height: 32px; position: relative; }
+.g-row.g-sep { margin-top: 14px; }
+.g-head { height: 30px; color: var(--text-3); font-size: 13px; }
+.g-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 14px; color: var(--text); transition: opacity .2s ease; }
+.g-label b { font-weight: 400; color: var(--accent-text); display: inline-block; width: 1.6em; }
+.g-track { position: relative; height: 100%; }
+.weeks span { position: absolute; top: 6px; white-space: nowrap; padding-left: 6px; border-left: 1px solid var(--line); line-height: 1.2; }
+.g-body { position: relative; }
+.g-body .g-track { background-image: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 6.6667%); }
+.bar { position: absolute; top: 9px; height: 14px; transition: background-color .2s ease, opacity .2s ease, left .3s ease, width .3s ease; }
+.bar.soft { background: var(--bar-soft); border-radius: 7px; }
+.bar.firm { background: var(--accent); border-radius: 5px; }
+.g-row[data-status="out"] .bar.firm { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.g-row[data-status="out"] .bar.soft { opacity: 0; }
+.g-row[data-status="out"] .g-label { opacity: .4; }
+.g-row:not(.g-head) { z-index: 1; }
+.g-marker { position: absolute; top: -4px; bottom: 0; pointer-events: none; }
+.g-marker > span { position: absolute; bottom: -24px; left: 0; white-space: nowrap; font-size: 12.5px; color: var(--accent-text); font-weight: 600; }
+.g-marker.bbw { background: var(--accent-soft); border-left: 1px solid var(--accent-line); border-right: 1px solid var(--accent-line); }
+.g-marker.start { width: 0; border-left: 1.5px solid var(--text); }
+.g-marker.start > span { color: var(--text); bottom: auto; top: -26px; transform: translateX(-50%); background: var(--bg); padding: 0 6px; }
+.timeline-notes { margin-top: 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.timeline-notes h3 { font-size: 1.1rem; margin-bottom: 6px; letter-spacing: -0.01em; }
+.timeline-notes p { font-size: 15px; margin: 0; }
+
+/* Next */
+.next ol { list-style: none; counter-reset: n; padding: 0; margin: 0 0 36px; }
+.next li { counter-increment: n; display: grid; grid-template-columns: 2.4rem 1fr; padding: 16px 0; border-top: 1px solid var(--line); font-size: 1.1rem; color: var(--text); }
+.next li:first-child { border-top: 0; padding-top: 4px; }
+.next li::before { content: counter(n); color: var(--accent-text); }
+.cta { display: inline-flex; align-items: center; text-decoration: none; background: var(--accent); color: var(--paper); padding: 14px 22px; border-radius: 999px; font-size: 16px; font-weight: 600; transition: background-color .15s ease; }
+.cta:hover { background: var(--accent-hover); }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.cta.secondary { background: transparent; color: var(--accent-text); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.cta.secondary:hover { background: var(--accent-soft); }
+.foot { padding: 40px 0 56px; border-top: 1px solid var(--line); color: var(--text-3); font-size: 14px; }
+.foot .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+
+/* Sticky price bar */
+.pricebar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 25;
+  background: var(--header-bg);
+  -webkit-backdrop-filter: saturate(1.4) blur(16px); backdrop-filter: saturate(1.4) blur(16px);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.pb-row { display: flex; align-items: center; gap: 12px 28px; padding-top: 12px; }
+.pb-pkgs { display: flex; gap: 6px; overflow-x: auto; flex: 1; min-width: 0; scrollbar-width: none; padding: 2px; }
+.pb-pkgs::-webkit-scrollbar { display: none; }
+.pkg {
+  appearance: none; font: inherit; cursor: pointer; text-align: left; white-space: nowrap;
+  border: 0; border-radius: 12px; padding: 8px 14px 9px; background: transparent; color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--line);
+  display: flex; flex-direction: column; gap: 1px;
+  transition: background-color .15s ease, box-shadow .15s ease;
+}
+.pkg:hover { box-shadow: inset 0 0 0 1px var(--accent-line); }
+.pkg[data-pkg="recommended"] { box-shadow: inset 0 0 0 1px var(--blue-400); }
+.pkg[data-pkg="recommended"]:hover { box-shadow: inset 0 0 0 1px var(--accent); }
+.pkg .p-name { font-size: 15px; line-height: 1.2; }
+.pkg .p-price { font-size: 13px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.pkg[aria-checked="true"] { background: var(--accent); color: var(--on-accent); box-shadow: none; }
+.pkg[aria-checked="true"] .p-price { color: var(--on-accent); opacity: .85; }
+.pb-est { text-align: right; flex: none; }
+.pb-est .e-label { font-size: 13px; color: var(--text-3); display: block; }
+.pb-est .e-price { font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.05; letter-spacing: -0.02em; color: var(--text); font-variant-numeric: tabular-nums; }
+.pb-note { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 4px 32px; font-size: 13px; color: var(--text-3); padding-top: 8px; padding-bottom: 12px; }
+.pb-note .pb-disc { grid-column: 2; text-align: right; white-space: nowrap; }
+.pb-note [data-desc] { color: var(--text-2); }
+.pb-note .pb-flag { display: block; color: var(--accent-text); font-weight: 600; margin-top: 2px; }
+.pb-note .pb-flag[hidden] { display: none; }
+
+@media (max-width: 980px) {
+  .option { grid-template-columns: 3.4rem minmax(0, 1fr); }
+  .option .o-ctl { grid-column: 2; padding: 22px 0 0; max-width: 420px; }
+  .timeline-notes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .split { grid-template-columns: 1fr; }
+  .split > .side h2 { position: static; }
+  .fit-side .stick { position: static; }
+  .shots { display: none; }
+  .facts { grid-template-columns: 1fr; }
+  .facts div { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .step, .option { grid-template-columns: 2.4rem minmax(0, 1fr); }
+  .body ul.cols { columns: 1; }
+  .people th { width: 40%; }
+  .timeline-notes { grid-template-columns: 1fr; }
+  .lockup { gap: 10px; }
+  .we3-mark { height: 16px; }
+  .pcs-mark { height: 18px; }
+  .pb-row { flex-wrap: wrap; }
+  .pb-pkgs { order: 2; flex-basis: 100%; }
+  .pb-est { order: 1; text-align: left; display: flex; align-items: baseline; gap: 10px; }
+  .pb-note [data-desc] { display: none; }
+  .pb-note { grid-template-columns: 1fr; }
+  .pb-note .pb-disc { grid-column: 1; text-align: left; white-space: normal; }
+}
+@media (max-width: 520px) {
+  .people, .people tbody, .people tr, .people th, .people td { display: block; width: 100%; }
+  .people td { border-top: 0; padding-top: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+@media print {
+  body { padding-bottom: 0; }
+  .site-head { position: static; }
+  .pricebar { position: static; }
+  .step, .option { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="lockup">
+      <a href="https://www.we3.co"><svg class="we3-mark" role="img" aria-label="WE3" viewBox="285 193 1984 620" fill="none" xmlns="http://www.w3.org/2000/svg"> <g> <path d="M2127.53 315.241H1658.33V193H2041.79C2075.92 193 2098.44 210.835 2120.94 240.785L2237.14 397.462C2259.65 427.467 2268.37 455.249 2268.37 498.589C2268.37 541.929 2259.65 568.559 2237.14 599.702L2120.94 756.393C2098.44 787.509 2075.92 804.165 2041.79 804.165H1658.33V681.937H2127.53C2156.58 681.937 2181.27 646.376 2181.27 601.925V559.696H1658.38V437.469H2181.27V395.24C2181.27 350.788 2156.58 315.241 2127.53 315.241Z" fill="currentColor"/> <path d="M617.557 288.416C609.275 298.188 599.26 303.074 587.513 303.074C599.251 303.074 609.266 308.161 617.557 318.336C625.838 328.485 630.246 341.247 629.994 354.344C630.253 367.446 625.845 380.214 617.557 390.366C609.275 400.549 599.26 405.637 587.513 405.628C599.251 405.628 609.266 410.509 617.557 420.272C625.848 430.035 629.994 441.837 629.994 455.677C630.253 468.779 625.845 481.547 617.557 491.699C609.275 501.882 599.26 506.969 587.513 506.96C599.251 506.96 609.266 512.048 617.557 522.222C625.838 532.372 630.246 545.133 629.994 558.23C629.994 572.079 625.848 583.881 617.557 593.635C609.266 603.389 599.251 608.275 587.513 608.293C599.251 608.293 609.266 613.381 617.557 623.555C625.841 633.708 630.249 646.475 629.994 659.577C629.749 672.76 634.356 685.574 642.938 695.585C651.577 705.769 661.765 710.856 673.502 710.846C685.24 710.837 695.428 705.75 704.067 695.585C712.643 685.571 717.249 672.759 717.011 659.577C716.755 672.675 721.163 685.437 729.448 695.585C737.73 705.769 747.745 710.856 759.492 710.846C747.745 710.846 737.73 715.728 729.448 725.491C721.166 735.254 717.02 747.06 717.011 760.91C717.249 774.092 712.643 786.904 704.067 796.918C695.428 807.111 685.24 812.198 673.502 812.18C661.765 812.161 651.577 807.074 642.938 796.918C634.356 786.907 629.749 774.093 629.994 760.91C629.994 747.069 625.848 735.264 617.557 725.491C609.266 715.719 599.251 710.837 587.513 710.846C575.766 710.846 565.578 715.728 556.949 725.491C548.319 735.254 544.005 747.06 544.005 760.91C544.242 774.092 539.637 786.904 531.06 796.918C522.403 807.111 512.215 812.198 500.496 812.18C488.777 812.161 478.762 807.074 470.453 796.918C462.163 786.773 457.754 774.008 458.016 760.91C458.253 774.092 453.648 786.904 445.071 796.918C436.414 807.111 426.226 812.198 414.507 812.18C402.788 812.161 392.599 807.074 383.942 796.918C375.36 786.907 370.754 774.093 370.998 760.91C370.998 747.069 366.852 735.264 358.561 725.491C350.27 715.719 340.256 710.837 328.518 710.846C316.762 710.846 306.574 705.759 297.953 695.585C289.371 685.574 284.765 672.76 285.009 659.577C284.773 646.391 289.378 633.575 297.953 623.555C306.574 613.381 316.762 608.293 328.518 608.293C316.762 608.293 306.574 603.407 297.953 593.635C289.333 583.863 285.018 572.061 285.009 558.23C284.775 545.048 289.38 532.238 297.953 522.222C306.574 512.048 316.762 506.96 328.518 506.96C316.762 506.96 306.574 501.873 297.953 491.699C289.374 481.681 284.768 468.864 285.009 455.677C285.009 441.855 289.324 430.053 297.953 420.272C306.583 410.491 316.771 405.609 328.518 405.628C316.762 405.628 306.574 400.54 297.953 390.366C289.374 380.348 284.768 367.531 285.009 354.344C284.775 341.162 289.38 328.351 297.953 318.336C306.574 308.161 316.762 303.074 328.518 303.074C316.762 303.074 306.574 298.188 297.953 288.416C289.333 278.644 285.018 266.842 285.009 253.011C284.775 239.829 289.38 227.019 297.953 217.003C306.574 206.828 316.762 201.741 328.518 201.741C340.274 201.741 350.288 206.828 358.561 217.003C366.837 227.156 371.244 239.915 370.998 253.011C370.998 266.86 375.313 278.662 383.942 288.416C392.572 298.17 402.76 303.056 414.507 303.074C402.751 303.074 392.563 308.161 383.942 318.336C375.369 328.351 370.764 341.162 370.998 354.344C370.757 367.531 375.363 380.348 383.942 390.366C392.572 400.549 402.76 405.637 414.507 405.628C402.751 405.628 392.563 410.509 383.942 420.272C375.322 430.035 371.007 441.837 370.998 455.677C370.757 468.864 375.363 481.681 383.942 491.699C392.572 501.882 402.76 506.969 414.507 506.96C402.751 506.96 392.563 512.048 383.942 522.222C375.369 532.238 370.764 545.048 370.998 558.23C370.998 572.079 375.313 583.881 383.942 593.635C392.572 603.389 402.76 608.275 414.507 608.293C402.751 608.293 392.563 613.381 383.942 623.555C375.367 633.575 370.762 646.391 370.998 659.577C370.754 672.76 375.36 685.574 383.942 695.585C392.572 705.769 402.76 710.856 414.507 710.846C426.254 710.837 436.442 705.75 445.071 695.585C453.648 685.571 458.253 672.759 458.016 659.577C457.754 672.676 462.163 685.44 470.453 695.585C478.735 705.769 488.749 710.856 500.496 710.846C512.243 710.837 522.431 705.75 531.06 695.585C539.637 685.571 544.242 672.759 544.005 659.577C544.234 646.392 539.63 633.578 531.06 623.555C522.403 613.381 512.215 608.293 500.496 608.293C512.233 608.293 522.422 603.407 531.06 593.635C539.699 583.863 544.014 572.061 544.005 558.23C544.232 545.049 539.628 532.241 531.06 522.222C522.367 512.057 512.179 506.974 500.496 506.974C512.233 506.974 522.422 501.887 531.06 491.713C539.634 481.692 544.239 468.877 544.005 455.691C544.005 441.869 539.69 430.067 531.06 420.286C522.431 410.504 512.243 405.623 500.496 405.641C512.233 405.641 522.422 400.554 531.06 390.379C539.634 380.359 544.239 367.544 544.005 354.358C544.232 341.177 539.628 328.368 531.06 318.349C522.403 308.175 512.215 303.088 500.496 303.088C512.233 303.088 522.422 298.202 531.06 288.43C539.699 278.657 544.014 266.856 544.005 253.025C543.771 239.843 548.376 227.032 556.949 217.017C565.587 206.842 575.776 201.755 587.513 201.755C599.251 201.755 609.266 206.842 617.557 217.017C625.838 227.166 630.246 239.927 629.994 253.025C629.994 266.865 625.848 278.662 617.557 288.416ZM790.056 725.491C781.417 715.728 771.229 710.846 759.492 710.846C771.229 710.846 781.417 705.759 790.056 695.585C798.632 685.571 803.238 672.759 803 659.577C803.23 646.392 798.625 633.578 790.056 623.555C781.417 613.381 771.229 608.293 759.492 608.293C771.229 608.293 781.417 603.407 790.056 593.635C798.694 583.863 803.009 572.061 803 558.23C803.228 545.049 798.623 532.241 790.056 522.222C781.417 512.048 771.229 506.96 759.492 506.96C771.229 506.96 781.417 501.873 790.056 491.699C798.63 481.678 803.235 468.863 803 455.677C803 441.855 798.685 430.053 790.056 420.272C781.426 410.491 771.238 405.609 759.492 405.628C771.229 405.628 781.417 400.54 790.056 390.366C798.63 380.345 803.235 367.53 803 354.344C803.228 341.163 798.623 328.355 790.056 318.336C781.417 308.161 771.229 303.074 759.492 303.074C771.229 303.074 781.417 298.188 790.056 288.416C798.694 278.644 803.009 266.842 803 253.011C802.765 239.827 807.376 227.014 815.958 217.003C824.578 206.828 834.767 201.741 846.523 201.741C858.279 201.741 868.293 206.828 876.566 217.003C884.838 227.157 889.24 239.916 888.989 253.011C888.989 266.86 884.848 278.662 876.566 288.416C868.284 298.17 858.269 303.056 846.523 303.074C858.242 303.074 868.256 308.161 876.566 318.336C884.838 328.49 889.24 341.249 888.989 354.344C889.247 367.444 884.845 380.21 876.566 390.366C868.265 400.549 858.251 405.637 846.523 405.628C858.242 405.628 868.256 410.509 876.566 420.272C884.875 430.035 889.017 441.837 888.989 455.677C889.247 468.777 884.845 481.543 876.566 491.699C868.265 501.882 858.251 506.969 846.523 506.96C858.242 506.96 868.256 512.048 876.566 522.222C884.838 532.376 889.24 545.135 888.989 558.23C888.989 572.079 884.848 583.881 876.566 593.635C868.284 603.389 858.269 608.275 846.523 608.293C858.242 608.293 868.256 613.381 876.566 623.555C884.84 633.713 889.243 646.478 888.989 659.577C889.249 672.673 884.846 685.435 876.566 695.585C868.265 705.769 858.251 710.856 846.523 710.846C858.242 710.846 868.256 715.728 876.566 725.491C884.875 735.254 889.017 747.06 888.989 760.91C889.249 774.006 884.846 786.768 876.566 796.918C868.265 807.111 858.251 812.198 846.523 812.18C834.794 812.161 824.606 807.074 815.958 796.918C807.367 786.912 802.755 774.096 803 760.91C803 747.069 798.685 735.264 790.056 725.491V725.491Z" fill="currentColor"/> <path d="M1583 317.233L988 346.773V222.541L1583 193V317.233ZM1583 376.328V502.5L988 472.945V346.773L1583 376.328ZM1583 628.672L988 658.213V532.124L1583 502.57V628.672ZM1583 812L988 782.445V658.213L1583 687.782V812Z" fill="currentColor"/> </g> </svg></a>
+      <span class="x" aria-hidden="true">×</span>
+      <svg class="pcs-mark" role="img" aria-label="PancakeSwap" viewBox="0 0 1281 199" xmlns="http://www.w3.org/2000/svg" fill="#280D5F" xmlns:xlink="http://www.w3.org/1999/xlink"><path fill="currentColor" d="M247.013 153.096c-2.979 0-5.085-.617-6.318-1.849-1.13-1.233-1.695-3.185-1.695-5.856v-89.22c0-2.672.616-4.624 1.849-5.856 1.233-1.336 3.287-2.004 6.164-2.004h37.753c14.382 0 24.963 3.031 31.744 9.092 6.78 6.061 10.17 15.101 10.17 27.12 0 11.917-3.39 20.906-10.17 26.967-6.678 5.959-17.259 8.938-31.744 8.938h-14.639v24.963c0 2.671-.616 4.623-1.849 5.856-1.233 1.232-3.339 1.849-6.318 1.849h-14.947zm35.288-55.012c4.212 0 7.448-1.13 9.708-3.39 2.362-2.26 3.544-5.65 3.544-10.17 0-4.623-1.182-8.065-3.544-10.325-2.26-2.26-5.496-3.39-9.708-3.39h-12.174v27.275h12.174zM363.071 155.407c-9.656 0-17.412-3.082-23.268-9.245-5.753-6.267-8.629-15.05-8.629-26.351 0-8.629 1.952-16.18 5.855-22.652 4.007-6.472 9.606-11.454 16.797-14.947 7.294-3.595 15.666-5.393 25.117-5.393 7.808 0 14.691.873 20.649 2.62 6.061 1.643 11.608 4.057 16.642 7.242v61.638c0 1.952-.359 3.236-1.079 3.852-.719.617-2.157.925-4.314.925h-15.718c-1.13 0-2.003-.154-2.619-.463-.617-.41-1.13-1.027-1.541-1.849l-2.004-4.622c-2.979 3.184-6.574 5.496-10.786 6.934-4.109 1.541-9.143 2.311-15.102 2.311zm11.558-20.957c4.006 0 7.139-.976 9.399-2.927 2.26-1.952 3.39-4.726 3.39-8.322V99.163c-1.951-.925-4.417-1.387-7.396-1.387-5.445 0-9.811 1.9-13.098 5.701-3.185 3.801-4.777 9.143-4.777 16.026 0 9.965 4.16 14.947 12.482 14.947zM437.679 153.096c-2.98 0-5.086-.617-6.318-1.849-1.233-1.233-1.849-3.185-1.849-5.856V83.907c0-1.849.308-3.082.924-3.698.719-.72 2.157-1.079 4.315-1.079h15.872c1.232 0 2.157.206 2.773.617.719.308 1.13.924 1.233 1.849l.77 4.623c2.877-2.877 6.627-5.137 11.249-6.78 4.726-1.747 9.965-2.62 15.718-2.62 8.321 0 15.05 2.363 20.186 7.088 5.137 4.623 7.705 11.506 7.705 20.649v40.835c0 2.671-.616 4.623-1.849 5.856-1.13 1.232-3.185 1.849-6.164 1.849h-14.947c-2.979 0-5.136-.617-6.472-1.849-1.233-1.233-1.849-3.185-1.849-5.856v-38.832c0-3.082-.668-5.29-2.003-6.626-1.336-1.335-3.442-2.003-6.318-2.003-3.082 0-5.548.822-7.397 2.465-1.746 1.644-2.619 3.904-2.619 6.781v38.215c0 2.671-.617 4.623-1.849 5.856-1.13 1.232-3.185 1.849-6.164 1.849h-14.947zM564.725 155.407c-14.382 0-25.477-3.339-33.285-10.016-7.807-6.677-11.711-16.385-11.711-29.124 0-7.807 1.798-14.69 5.393-20.648 3.596-5.959 8.784-10.582 15.564-13.869 6.883-3.287 14.999-4.931 24.347-4.931 7.088 0 13.047.668 17.875 2.003 4.931 1.336 9.297 3.39 13.098 6.164 1.13.72 1.695 1.644 1.695 2.774 0 .822-.411 1.9-1.233 3.236l-6.318 10.94c-.719 1.439-1.592 2.158-2.619 2.158-.617 0-1.593-.411-2.928-1.233-2.774-1.746-5.393-3.03-7.859-3.852-2.363-.822-5.342-1.233-8.937-1.233-5.137 0-9.297 1.644-12.482 4.931-3.082 3.287-4.623 7.807-4.623 13.56 0 5.856 1.592 10.376 4.777 13.56 3.185 3.082 7.551 4.623 13.098 4.623 3.287 0 6.267-.462 8.938-1.387 2.671-.924 5.393-2.208 8.167-3.852 1.438-.822 2.465-1.233 3.082-1.233.924 0 1.746.719 2.465 2.158l6.934 11.865c.514 1.027.771 1.849.771 2.465 0 .925-.617 1.798-1.849 2.62-4.315 2.774-9.041 4.828-14.177 6.164-5.034 1.438-11.095 2.157-18.183 2.157zM638.004 155.407c-9.657 0-17.413-3.082-23.268-9.245-5.753-6.267-8.63-15.05-8.63-26.351 0-8.629 1.952-16.18 5.856-22.652 4.006-6.472 9.605-11.454 16.796-14.947 7.294-3.595 15.667-5.393 25.118-5.393 7.807 0 14.69.873 20.648 2.62 6.061 1.643 11.609 4.057 16.643 7.242v61.638c0 1.952-.36 3.236-1.079 3.852-.719.617-2.157.925-4.315.925h-15.717c-1.13 0-2.004-.154-2.62-.463-.616-.41-1.13-1.027-1.541-1.849l-2.003-4.622c-2.979 3.184-6.575 5.496-10.787 6.934-4.109 1.541-9.143 2.311-15.101 2.311zm11.557-20.957c4.007 0 7.14-.976 9.4-2.927 2.26-1.952 3.39-4.726 3.39-8.322V99.163c-1.952-.925-4.417-1.387-7.397-1.387-5.444 0-9.81 1.9-13.098 5.701-3.184 3.801-4.777 9.143-4.777 16.026 0 9.965 4.161 14.947 12.482 14.947zM787.963 147.24c.719.822 1.079 1.747 1.079 2.774 0 .924-.308 1.695-.925 2.311-.616.514-1.438.771-2.465.771h-23.885c-1.438 0-2.517-.103-3.236-.308-.616-.309-1.284-.874-2.003-1.695l-20.957-28.508v22.806c0 2.671-.616 4.623-1.849 5.856-1.233 1.232-3.339 1.849-6.318 1.849h-14.947c-2.979 0-5.085-.617-6.318-1.849-1.13-1.233-1.695-3.185-1.695-5.856v-89.22c0-2.672.616-4.624 1.849-5.856 1.233-1.336 3.288-2.004 6.164-2.004h14.947c2.979 0 5.085.668 6.318 2.004 1.233 1.232 1.849 3.184 1.849 5.855v51.622l20.341-26.504c.616-.822 1.284-1.387 2.003-1.695.719-.309 1.798-.463 3.236-.463h23.885c1.027 0 1.797.309 2.311.925.616.514.925 1.233.925 2.157 0 1.028-.36 1.952-1.079 2.774l-26.35 30.203 27.12 32.051zM837.998 155.407c-8.629 0-16.334-1.438-23.114-4.314-6.677-2.877-11.968-7.192-15.872-12.944-3.903-5.753-5.855-12.79-5.855-21.111 0-13.047 3.698-23.012 11.095-29.895 7.396-6.883 18.029-10.324 31.897-10.324 13.561 0 23.834 3.39 30.819 10.17 7.089 6.678 10.633 15.975 10.633 27.891 0 5.137-2.26 7.705-6.78 7.705h-48.386c0 4.417 1.643 7.808 4.931 10.17 3.39 2.363 8.475 3.544 15.255 3.544 4.212 0 7.705-.359 10.479-1.078 2.876-.822 5.753-2.003 8.629-3.544 1.233-.514 2.055-.771 2.465-.771.925 0 1.695.617 2.312 1.849l5.239 9.862c.514 1.028.771 1.798.771 2.312 0 .924-.617 1.798-1.85 2.619-4.211 2.774-8.988 4.777-14.33 6.01-5.342 1.233-11.455 1.849-18.338 1.849zm11.866-48.077c0-3.904-1.13-6.935-3.39-9.092-2.26-2.157-5.651-3.236-10.171-3.236s-7.961 1.13-10.324 3.39c-2.363 2.158-3.544 5.137-3.544 8.938h27.429zM930.417 155.407c-8.63 0-16.797-.873-24.501-2.619-7.705-1.85-13.92-4.418-18.646-7.705-1.746-1.13-2.619-2.312-2.619-3.544 0-.822.308-1.695.924-2.62l7.551-12.019c.822-1.233 1.643-1.849 2.465-1.849.514 0 1.387.359 2.62 1.078 3.801 2.158 8.115 3.904 12.944 5.239 4.828 1.336 9.605 2.004 14.331 2.004 4.828 0 8.372-.719 10.632-2.158 2.363-1.438 3.544-3.749 3.544-6.934 0-3.082-1.284-5.496-3.852-7.242-2.466-1.747-7.14-3.955-14.023-6.626-10.375-3.904-18.491-8.27-24.347-13.099-5.753-4.93-8.629-11.608-8.629-20.032 0-10.17 3.647-17.926 10.941-23.268C907.046 48.67 916.753 46 928.876 46c8.423 0 15.615.77 21.573 2.311 6.061 1.439 11.197 3.699 15.409 6.78 1.747 1.336 2.62 2.569 2.62 3.699 0 .719-.308 1.54-.925 2.465l-7.55 12.02c-.925 1.232-1.747 1.849-2.466 1.849-.513 0-1.387-.36-2.619-1.079-5.959-3.904-13.047-5.855-21.265-5.855-4.418 0-7.808.719-10.171 2.157-2.362 1.438-3.544 3.801-3.544 7.088 0 2.26.617 4.11 1.849 5.548 1.233 1.438 2.877 2.722 4.931 3.852 2.158 1.027 5.445 2.363 9.862 4.007l2.928 1.078c7.602 2.98 13.561 5.856 17.875 8.63 4.418 2.67 7.756 6.009 10.016 10.016 2.26 3.903 3.39 8.834 3.39 14.793 0 9.143-3.441 16.437-10.324 21.881-6.78 5.445-16.796 8.167-30.048 8.167zM1003.53 153.096c-1.54 0-2.72-.257-3.544-.771-.822-.513-1.439-1.541-1.85-3.082l-19.878-66.569c-.205-.616-.308-1.078-.308-1.386 0-1.438 1.027-2.158 3.082-2.158h20.338c1.34 0 2.31.257 2.93.77.62.412 1.03 1.13 1.23 2.158l8.32 34.98 10.48-28.2c.52-1.232 1.03-2.054 1.54-2.465.62-.514 1.65-.77 3.09-.77h9.7c1.44 0 2.42.256 2.93.77.62.41 1.18 1.233 1.7 2.465l10.32 28.2 8.48-34.98c.3-1.027.71-1.746 1.23-2.157.51-.514 1.44-.77 2.77-.77h20.5c2.05 0 3.08.719 3.08 2.157 0 .308-.1.77-.31 1.386l-20.03 66.569c-.41 1.541-1.03 2.569-1.85 3.082-.72.514-1.85.771-3.39.771h-15.1c-1.44 0-2.52-.257-3.24-.771-.72-.616-1.33-1.643-1.85-3.082l-10.17-27.891-10.17 27.891c-.41 1.439-1.03 2.466-1.85 3.082-.72.514-1.79.771-3.23.771h-14.95zM1128.73 155.407c-9.66 0-17.41-3.082-23.27-9.245-5.75-6.267-8.63-15.05-8.63-26.351 0-8.629 1.95-16.18 5.86-22.652 4-6.472 9.6-11.454 16.79-14.947 7.3-3.595 15.67-5.393 25.12-5.393 7.81 0 14.69.873 20.65 2.62 6.06 1.643 11.61 4.057 16.64 7.242v61.638c0 1.952-.36 3.236-1.08 3.852-.72.617-2.15.925-4.31.925h-15.72c-1.13 0-2-.154-2.62-.463-.62-.41-1.13-1.027-1.54-1.849l-2-4.622c-2.98 3.184-6.58 5.496-10.79 6.934-4.11 1.541-9.14 2.311-15.1 2.311zm11.56-20.957c4 0 7.14-.976 9.4-2.927 2.26-1.952 3.39-4.726 3.39-8.322V99.163c-1.96-.925-4.42-1.387-7.4-1.387-5.45 0-9.81 1.9-13.1 5.701-3.18 3.801-4.78 9.143-4.78 16.026 0 9.965 4.17 14.947 12.49 14.947zM1203.18 184.223c-2.98 0-5.08-.616-6.32-1.849-1.13-1.233-1.69-3.185-1.69-5.856V88.222c4.62-3.287 10.43-6.01 17.41-8.167 6.99-2.157 14.28-3.236 21.88-3.236 31.03 0 46.54 13.15 46.54 39.448 0 11.917-3.29 21.419-9.86 28.508-6.58 7.088-15.87 10.632-27.89 10.632-3.39 0-6.68-.411-9.87-1.233-3.08-.821-5.65-1.951-7.7-3.39v25.734c0 2.671-.62 4.623-1.85 5.856-1.23 1.233-3.34 1.849-6.32 1.849h-14.33zm33.44-49.619c4.42 0 7.71-1.643 9.86-4.931 2.26-3.39 3.39-7.91 3.39-13.56 0-6.677-1.33-11.352-4-14.023-2.57-2.773-6.58-4.16-12.02-4.16-3.5 0-6.27.462-8.32 1.387v24.501c0 3.493.97 6.164 2.92 8.013 1.96 1.849 4.68 2.773 8.17 2.773z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M97.556 198.607c-29.192-.022-52.708-7.027-69.138-19.609-16.627-12.733-25.448-30.803-25.448-51.25 0-19.701 8.801-33.907 18.76-43.51 7.805-7.525 16.417-12.344 22.414-15.117-1.356-4.162-3.048-9.61-4.562-15.238-2.025-7.53-4.012-16.366-4.012-22.84 0-7.663 1.67-15.36 6.175-21.34C46.505 3.385 53.671 0 62.291 0c6.737 0 12.457 2.499 16.934 6.81 4.28 4.12 7.13 9.593 9.097 15.298 3.456 10.024 4.802 22.618 5.179 35.187h8.257c.378-12.569 1.723-25.163 5.18-35.187 1.967-5.705 4.815-11.177 9.096-15.298C120.512 2.5 126.231 0 132.968 0c8.621 0 15.786 3.385 20.546 9.703 4.505 5.98 6.176 13.677 6.176 21.34 0 6.474-1.988 15.31-4.013 22.84-1.514 5.628-3.206 11.076-4.562 15.238 5.997 2.773 14.61 7.592 22.414 15.118 9.959 9.602 18.76 23.808 18.76 43.509 0 20.447-8.82 38.517-25.448 51.25-16.43 12.582-39.946 19.587-69.138 19.609h-.147z" fill="#633001"></path><path d="M62.29 7.288c-12.625 0-18.437 9.516-18.437 22.675 0 10.46 6.753 31.408 9.523 39.563.624 1.835-.356 3.844-2.142 4.555-10.119 4.031-39.981 18.789-39.981 52.588 0 35.603 30.347 62.448 86.31 62.491l.066-.001.067.001c55.962-.043 86.309-26.888 86.309-62.491 0-33.799-29.862-48.557-39.981-52.588-1.786-.71-2.765-2.72-2.142-4.555 2.771-8.154 9.524-29.103 9.524-39.563 0-13.16-5.812-22.675-18.438-22.675-18.174 0-22.705 26.007-23.028 53.92-.021 1.863-1.513 3.375-3.357 3.375H88.676c-1.845 0-3.336-1.512-3.358-3.375-.323-27.913-4.853-53.92-23.028-53.92z" fill="#D1884F"></path><path d="M97.696 177.755c-41.118 0-86.372-22.235-86.443-51.018v.134c0 35.632 30.395 62.491 86.443 62.491s86.443-26.859 86.443-62.491v-.134c-.071 28.783-45.325 51.018-86.443 51.018z" fill="#FEDC90"></path><path d="M74.85 117.896c0 9.718-4.546 14.779-10.154 14.779s-10.154-5.061-10.154-14.779 4.546-14.779 10.154-14.779 10.154 5.061 10.154 14.779zM140.851 117.896c0 9.718-4.546 14.779-10.154 14.779s-10.154-5.061-10.154-14.779 4.546-14.779 10.154-14.779 10.154 5.061 10.154 14.779z" fill="#633001"></path></svg>
+    </div>
+    <button class="theme-switch" type="button" role="switch" aria-checked="false" id="themeSwitch" aria-label="Night mode">
+      <span class="track"><span class="knob">
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+      </span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <p class="for">An interactive discussion artifact from WE3 for Captain Miso from PancakeSwap to finalize scope of a possible cooperation.</p>
+    <h1>How we’d redesign the PancakeSwap app</h1>
+    <p class="lede"><strong>What’s this?</strong> It’s a single-file, interactive scoping document from WE3 to PancakeSwap, based on our conversations with Chef Miso on 10 November. It sets out a proposed app redesign as a fixed core plus adjustable options, and shows a live price range and timeline that adjust as you play around with the scope. Its aim is to provide a rough estimation of price ranges and help us agree on a scope together. It’s not a fixed quote to accept or reject.</p>
+    <dl class="facts">
+      <div><dt>Earliest start</dt><dd>Tuesday 17 November</dd></div>
+      <div><dt>Binance Blockchain Week</dt><dd>28 and 29 November</dd></div>
+      <div><dt>Main design work</dt><dd>December and January</dd></div>
+    </dl>
+  </div>
+
+  <section id="fit">
+    <div class="wrap split">
+      <div class="side fit-side"><div class="stick"><h2>WE3</h2><figure class="shots" aria-hidden="true"><img data-shot="hyperliquid" src="https://framerusercontent.com/images/XIxrqqhqMWOrM0iY6aCtfUCX2k.png?width=1170&amp;height=2535" alt="Hyperliquid project by WE3" loading="lazy" decoding="async"><img data-shot="legend" src="https://framerusercontent.com/images/jnCGzzcd3eNo4Z1qF4uUKnPPzF0.webp?scale-down-to=2048&amp;width=1170&amp;height=2535" alt="Legend project by WE3" loading="lazy" decoding="async"><img data-shot="fomo" src="https://framerusercontent.com/images/i5gqgTl3Xx12tuhQT9Vcq7DOj4.png?scale-down-to=2048&amp;width=1179&amp;height=2535" alt="Fomo project by WE3" loading="lazy" decoding="async"><img data-shot="ef" src="https://framerusercontent.com/images/ZRT5BVHojnO5oJQ16sSMZnFvRU.webp?scale-down-to=2048&amp;width=1179&amp;height=2535" alt="Ethereum Foundation project by WE3" loading="lazy" decoding="async"></figure></div></div>
+      <div class="fit">
+        <article class="fit-intro">
+          <p class="fit-lead">WE3 is a collective of designers and strategists who’ve spent years taking things that are incredibly hard to explain and turning them into brands and products people actually want to use.</p>
+          <p>We are strategic partners who do the work ourselves, not consultants who hand over slides. Our designers, strategists and researchers come from companies like IDEO, AKQA, frog and other leading design and strategy firms. WE3 grew out of work with IDEO CoLab Ventures and has been running since 2020.</p>
+        </article>
+        <article>
+          <h3>We know DeFi products well.</h3>
+          <p>We’ve worked on brand and product for <span class="ref" data-ref="hyperliquid" tabindex="0">Hyperliquid</span>, <span class="ref" data-ref="legend" tabindex="0">Legend</span>, <span class="ref" data-ref="fomo" tabindex="0">Fomo</span>, GTE, Avara, Espresso, Spire Labs, the <span class="ref" data-ref="ef" tabindex="0">Ethereum Foundation</span>, Mars Protocol and Astroport. Liquidity pools, swaps and signing flows are familiar ground, so <strong>we can skip the basics</strong> and use our time with your team for the questions that matter.</p>
+        </article>
+        <article>
+          <h3>We’d design the app and the gamification together.</h3>
+          <p>Points, quests and rewards affect navigation, layout and what happens at the end of each flow. <strong>Designed together, game mechanics and product design fit each other much better</strong> than when developed in silos.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="split">
+        <div class="side"><h2>Must Have</h2></div>
+        <p class="intro">The core of the project, in the order we’d run it. These steps are part of every package. This is the smallest scope that allows us to deliver designs that live up to our own standards.</p>
+      </div>
+      <ol class="steps"><li class="step" id="step-1">
+<span class="num" aria-hidden="true">1</span>
+<div class="s-main"><h3 class="title">Understanding</h3><p class="sum">We like to read up before we ask questions.</p><div class="body"><p>We’ll request your key documents to thoroughly review and get up to speed quickly so we can ask better questions in the stakeholder interviews. For example:</p>
+<ul class="cols">
+<li>Documentation on your key features</li><li>Internal strategy and roadmap documents</li><li>Internal app feedback and support requests</li><li>Interviews &amp; podcasts that reflect your strategy &amp; goals</li><li>Brand guidelines</li><li>Figma files and the current design system</li><li>Earlier research, surveys or test results</li><li>Community feedback from Discord, Telegram and app stores</li>
+</ul></div></div>
+</li>
+<li class="step" id="step-2">
+<span class="num" aria-hidden="true">2</span>
+<div class="s-main"><h3 class="title">Stakeholder interviews</h3><p class="sum">We’ll talk to the people who shape the app and map the perspectives to guide our decision making in the design process.</p><div class="body"><table class="people">
+<tr><th scope="row">Product Owner<span>Chef Miso</span></th><td>To understand the business goals and what the redesign should achieve.</td></tr>
+<tr><th scope="row">Gamification lead<span>Chef Miso</span></th><td>To understand the goals of the initiative and the incentive mechanics.</td></tr>
+<tr><th scope="row">Brand Owner<span>Chef Kids</span></th><td>To hear her aspirations for the brand and what should stay recognisably PancakeSwap.</td></tr>
+<tr><th scope="row">Developer or Tech Lead<span>Engineering</span></th><td>To learn about the limits of the current implementation, the tech stack and security considerations.</td></tr>
+<tr><th scope="row">Designer</th><td>To understand the decisions that led to the PWA as it is today.</td></tr>
+</table></div></div>
+</li>
+<li class="step" id="step-3">
+<span class="num" aria-hidden="true">3</span>
+<div class="s-main"><h3 class="title">Audit and competitors</h3><p class="sum">A fresh look at the current app and at what others do well.</p><div class="body"><p>We review the app from first principles, guided by established usability heuristics, accessibility good practice and what we’ve learned designing other wallets and exchanges. Then we look at key competitors to spot gaps in features, visual design and usability.</p>
+<p>We’d start with <strong>Binance Wallet, Trust Wallet and Uniswap</strong> and adjust and amend the set with you.</p></div></div>
+</li>
+<li class="step" id="step-4">
+<span class="num" aria-hidden="true">4</span>
+<div class="s-main"><h3 class="title">Goal-setting workshop</h3><p class="sum">Agreeing together on what the redesign should achieve.</p><div class="body"><p>We design this workshop based on what we learned in the steps before. Together we define what we’re aiming for and prioritise the features and flows for the redesign. <strong>We come away with a prioritised scope agreed with the product lead.</strong></p><aside class="callout"><span class="c-label">Timing</span><p>We hold the workshop from 30 November, right after Binance Blockchain Week, so anything we pick up there feeds in as well.</p></aside></div></div>
+</li>
+<li class="step" id="step-5">
+<span class="num" aria-hidden="true">5</span>
+<div class="s-main"><h3 class="title">Visual direction</h3><p class="sum">Finding a look that fits where PancakeSwap is heading.</p><div class="body"><p>We look for references that come closer to the look we’re after and support the strategic direction, across crypto, fintech, games, consumer apps and art. Together we narrow them down with moodboards and your team’s feedback, then <strong>design one key screen in a few variations</strong> so we quickly agree on look and feel using real UI.</p>
+<p>Along the way we develop the colour system and make font recommendations.</p></div></div>
+</li>
+<li class="step" id="step-6">
+<span class="num" aria-hidden="true">6</span>
+<div class="s-main"><h3 class="title">Product design</h3><p class="sum">The key flows of the app, designed in Figma.</p><div class="body"><p>Based on the chosen visual direction, we design the key flows of the app. We think through how the designs scale, so <strong>your developers can implement them and your team can extend them</strong> with confidence.</p>
+<p>The flows are also set up as a clickable Figma prototype, ready to test. And of course we deliver the components as a tidy Figma library, so your team can reuse them, keep screens consistent and build new features faster.</p></div></div>
+</li></ol>
+    </div>
+  </section>
+
+  <section id="options">
+    <div class="wrap">
+      <div class="split">
+        <div class="side"><h2>Should Have</h2></div>
+        <p class="intro">Each option can be set from low touch to high touch, or left off. The dot marks our recommendation. <strong>With all options off, you have the Core package.</strong></p>
+      </div>
+      <div class="options">
+      <article class="option" id="opt-A" data-key="A" data-rec="4">
+<span class="letter" aria-hidden="true">A</span>
+<div class="o-main"><h3 class="title"><span class="vh">A. </span>Gamification concept support</h3><p class="sum">From exploring ideas to co-creating the concept with your team.</p><div class="body"><p>We think gamification will be central to the redesign reaching its goals, and closely tied to it. So we’d like to be more involved and co-create the concept with your team, rather than design around it.</p>
+<aside class="callout"><p>Between them, the designers we’d staff have completed Kevin Werbach’s <strong>Gamification</strong> course at the <strong>Wharton School</strong> and have implemented gamification concepts with clients like <strong>Legend</strong>, <strong>Fomo</strong>, Delphi Digital, Adidas and Volkswagen.</p></aside></div></div>
+<div class="o-ctl">
+<div class="scale" role="radiogroup" aria-label="Involvement for A, Gamification concept support">
+<button type="button" role="radio" class="off" data-level="0" aria-checked="false" aria-label="Off">Off</button>
+<span class="meter"><button type="button" role="radio" class="seg" data-level="1" aria-checked="false" aria-label="Level 1 of 5: Feedback on your existing concept from a design perspective."><span>1</span></button><button type="button" role="radio" class="seg" data-level="2" aria-checked="false" aria-label="Level 2 of 5: Exploration: ideas for how gamification could show up in the app, for your team to take further."><span>2</span></button><button type="button" role="radio" class="seg" data-level="3" aria-checked="false" aria-label="Level 3 of 5: Several concept directions explored with you, shown in the key flows."><span>3</span></button><button type="button" role="radio" class="seg rec" data-level="4" aria-checked="false" aria-label="Level 4 of 5: Shaping the concept together in regular sessions, designed into the key flows."><span>4</span></button><button type="button" role="radio" class="seg" data-level="5" aria-checked="false" aria-label="Level 5 of 5: Co-creating the full concept with you, from goals and incentive mechanics to every reward moment."><span>5</span></button></span>
+</div>
+<div class="ends" aria-hidden="true"><span>Low touch</span><span>High touch</span></div>
+<p class="level-desc" aria-live="polite"></p>
+<p class="rec-note">Our recommendation: 4/5</p>
+</div>
+</article>
+<article class="option" id="opt-B" data-key="B" data-rec="3">
+<span class="letter" aria-hidden="true">B</span>
+<div class="o-main"><h3 class="title"><span class="vh">B. </span>Binance Blockchain Week support</h3><p class="sum">From an interview script for your booth to our own interviews at the event.</p><div class="body"><p>Binance Blockchain Week in Bangkok on 28 and 29 November is a good occasion to talk to crypto users in person. At the low end, we support your booth team with an interview script; we’ve run hundreds of user interviews, so we think we can help. At the high end, Eric and/or Pierre come to Bangkok and run <strong>our own WE3-branded interviews about new wallet and DEX features</strong>, without mentioning PancakeSwap or our partnership.</p><aside class="callout"><span class="c-label">On representing PancakeSwap</span><p>We heard you’d rather we don’t represent PancakeSwap at the event, and that works for us. We still think it’s a great occasion for in-person interviews. Afterwards we can compare notes: what you learned from your users, and what we learned from random crypto enthusiasts about a generic new app.</p></aside><p>If we come, <strong>we cover part of the cost ourselves.</strong> Meeting in person at the start of a project tends to make our work and communication a lot smoother and more fun in a way that is hard to describe or quantify.</p></div></div>
+<div class="o-ctl">
+<div class="scale" role="radiogroup" aria-label="Involvement for B, Binance Blockchain Week support">
+<button type="button" role="radio" class="off" data-level="0" aria-checked="false" aria-label="Off">Off</button>
+<span class="meter"><button type="button" role="radio" class="seg" data-level="1" aria-checked="false" aria-label="Level 1 of 5: An interview script for your booth team. BBW is busy enough for you, we understand."><span>1</span></button><button type="button" role="radio" class="seg" data-level="2" aria-checked="false" aria-label="Level 2 of 5: Script, a short briefing for your booth team, and a readout. BBW is busy enough for you, we understand."><span>2</span></button><button type="button" role="radio" class="seg rec" data-level="3" aria-checked="false" aria-label="Level 3 of 5: We come to Bangkok, meet your team in person and run a first round of our own interviews."><span>3</span></button><button type="button" role="radio" class="seg" data-level="4" aria-checked="false" aria-label="Level 4 of 5: A full day of our own WE3-branded interviews, plus a session comparing notes with your team."><span>4</span></button><button type="button" role="radio" class="seg" data-level="5" aria-checked="false" aria-label="Level 5 of 5: A few days of our own interviews, the script and readout for your booth team, and a joint session comparing notes."><span>5</span></button></span>
+</div>
+<div class="ends" aria-hidden="true"><span>Low touch</span><span>High touch</span></div>
+<p class="level-desc" aria-live="polite"></p>
+<p class="rec-note">Our recommendation: 3/5</p>
+</div>
+</article>
+<article class="option" id="opt-C" data-key="C" data-rec="2">
+<span class="letter" aria-hidden="true">C</span>
+<div class="o-main"><h3 class="title"><span class="vh">C. </span>User testing and refinement</h3><p class="sum">Testing the riskiest flows with real users before they’re built.</p><div class="body"><p>We test the riskiest flows as clickable prototypes with small groups of users who represent the prioritised persona, recruited from PancakeSwap’s alpha or friendly users. Then we refine the designs based on what we learn.</p><aside class="callout"><span class="c-label">Our recommendation</span><p>A few users usually help you find the most important problems. So we recommend keeping this lean rather than testing excessively.</p></aside></div></div>
+<div class="o-ctl">
+<div class="scale" role="radiogroup" aria-label="Involvement for C, User testing and refinement">
+<button type="button" role="radio" class="off" data-level="0" aria-checked="false" aria-label="Off">Off</button>
+<span class="meter"><button type="button" role="radio" class="seg" data-level="1" aria-checked="false" aria-label="Level 1 of 5: One quick round with a few users on the riskiest flow."><span>1</span></button><button type="button" role="radio" class="seg rec" data-level="2" aria-checked="false" aria-label="Level 2 of 5: One round with around five users on the riskiest flows, then refinements."><span>2</span></button><button type="button" role="radio" class="seg" data-level="3" aria-checked="false" aria-label="Level 3 of 5: Two rounds: test, refine, retest."><span>3</span></button><button type="button" role="radio" class="seg" data-level="4" aria-checked="false" aria-label="Level 4 of 5: Two rounds across a wider set of flows."><span>4</span></button><button type="button" role="radio" class="seg" data-level="5" aria-checked="false" aria-label="Level 5 of 5: Ongoing testing across all key flows, with refinements after each round."><span>5</span></button></span>
+</div>
+<div class="ends" aria-hidden="true"><span>Low touch</span><span>High touch</span></div>
+<p class="level-desc" aria-live="polite"></p>
+<p class="rec-note">Our recommendation: 2/5</p>
+</div>
+</article>
+<article class="option" id="opt-D" data-key="D" data-rec="1">
+<span class="letter" aria-hidden="true">D</span>
+<div class="o-main"><h3 class="title"><span class="vh">D. </span>Platform-native design</h3><p class="sum">Specific adjustments for Android and iOS.</p><div class="body"><p>This ranges from the necessary adjustments for each platform, to small changes in visual style so the app feels at home on Android and iOS, all the way to a separate design per platform.</p><aside class="callout"><span class="c-label">Our recommendation</span><p>We’d recommend against the high end for now. Fully separate designs mean maintaining three different apps, which is too early at this stage.</p></aside></div></div>
+<div class="o-ctl">
+<div class="scale" role="radiogroup" aria-label="Involvement for D, Platform-native design">
+<button type="button" role="radio" class="off" data-level="0" aria-checked="false" aria-label="Off">Off</button>
+<span class="meter"><button type="button" role="radio" class="seg rec" data-level="1" aria-checked="false" aria-label="Level 1 of 5: The necessary adjustments so the app works well on both platforms, but you don’t end up maintaining three apps."><span>1</span></button><button type="button" role="radio" class="seg" data-level="2" aria-checked="false" aria-label="Level 2 of 5: Small adjustments in visual style to fit each platform."><span>2</span></button><button type="button" role="radio" class="seg" data-level="3" aria-checked="false" aria-label="Level 3 of 5: Platform-specific patterns for key interactions, like navigation and sheets."><span>3</span></button><button type="button" role="radio" class="seg" data-level="4" aria-checked="false" aria-label="Level 4 of 5: Separate designs of the key flows for each platform."><span>4</span></button><button type="button" role="radio" class="seg" data-level="5" aria-checked="false" aria-label="Level 5 of 5: A whole new design for each platform."><span>5</span></button></span>
+</div>
+<div class="ends" aria-hidden="true"><span>Low touch</span><span>High touch</span></div>
+<p class="level-desc" aria-live="polite"></p>
+<p class="rec-note">Our recommendation: 1/5</p>
+</div>
+</article>
+<article class="option" id="opt-E" data-key="E" data-rec="1">
+<span class="letter" aria-hidden="true">E</span>
+<div class="o-main"><h3 class="title"><span class="vh">E. </span>Website extension</h3><p class="sum">If the app moves too far from the website visually, the two will feel inconsistent, which can affect user trust, so you should plan resources for Q1 to align the design styles.</p><div class="body"><p>At the low end, we deliver Figma components your designers can reuse and adapt for the website. A step up, we design a single key screen to stress-test the new direction on desktop. At the high end, we redesign the main parts of the website, which would work well as a follow-up project.</p><aside class="callout"><span class="c-label">Our recommendation</span><p>We don’t think we need to do this in this project. The Figma components should get your designers quite far and will be tidy enough to extend. If we enjoy working together, we can always follow up.</p></aside></div></div>
+<div class="o-ctl">
+<div class="scale" role="radiogroup" aria-label="Involvement for E, Website extension">
+<button type="button" role="radio" class="off" data-level="0" aria-checked="false" aria-label="Off">Off</button>
+<span class="meter"><button type="button" role="radio" class="seg rec" data-level="1" aria-checked="false" aria-label="Level 1 of 5: Figma components your designers can reuse and adapt."><span>1</span></button><button type="button" role="radio" class="seg" data-level="2" aria-checked="false" aria-label="Level 2 of 5: A single key screen, to stress-test the new direction on desktop."><span>2</span></button><button type="button" role="radio" class="seg" data-level="3" aria-checked="false" aria-label="Level 3 of 5: A few key screens across the website."><span>3</span></button><button type="button" role="radio" class="seg" data-level="4" aria-checked="false" aria-label="Level 4 of 5: A redesign of some main parts of the website."><span>4</span></button><button type="button" role="radio" class="seg" data-level="5" aria-checked="false" aria-label="Level 5 of 5: A redesign of the whole website, best as a follow-up project."><span>5</span></button></span>
+</div>
+<div class="ends" aria-hidden="true"><span>Low touch</span><span>High touch</span></div>
+<p class="level-desc" aria-live="polite"></p>
+<p class="rec-note">Our recommendation: 1/5</p>
+</div>
+</article>
+<article class="option" id="opt-F" data-key="F" data-rec="2">
+<span class="letter" aria-hidden="true">F</span>
+<div class="o-main"><h3 class="title"><span class="vh">F. </span>Motion design</h3><p class="sum">At least one signature moment, designed with a motion designer.</p><div class="body"><p>Together with you we pick a key moment in the app and design it with an expert motion designer, documented so your developers can build it.</p><aside class="callout"><span class="c-label">Our recommendation</span><p>For now, a key moment or two. Small refinements to what’s already there, based on motion best practice, can deliver an outsized return in the perception of your app.</p></aside></div></div>
+<div class="o-ctl">
+<div class="scale" role="radiogroup" aria-label="Involvement for F, Motion design">
+<button type="button" role="radio" class="off" data-level="0" aria-checked="false" aria-label="Off">Off</button>
+<span class="meter"><button type="button" role="radio" class="seg" data-level="1" aria-checked="false" aria-label="Level 1 of 5: Small refinements to existing motion, based on best practice."><span>1</span></button><button type="button" role="radio" class="seg rec" data-level="2" aria-checked="false" aria-label="Level 2 of 5: One or two key moments, plus small refinements to what’s there."><span>2</span></button><button type="button" role="radio" class="seg" data-level="3" aria-checked="false" aria-label="Level 3 of 5: Several key moments across the main flows."><span>3</span></button><button type="button" role="radio" class="seg" data-level="4" aria-checked="false" aria-label="Level 4 of 5: Motion principles for the app, with the key moments designed."><span>4</span></button><button type="button" role="radio" class="seg" data-level="5" aria-checked="false" aria-label="Level 5 of 5: Full motion guidelines, including character animation moments."><span>5</span></button></span>
+</div>
+<div class="ends" aria-hidden="true"><span>Low touch</span><span>High touch</span></div>
+<p class="level-desc" aria-live="polite"></p>
+<p class="rec-note">Our recommendation: 2/5</p>
+</div>
+</article>
+<article class="option" id="opt-G" data-key="G" data-rec="0">
+<span class="letter" aria-hidden="true">G</span>
+<div class="o-main"><h3 class="title"><span class="vh">G. </span>Copywriting</h3><p class="sum">Clearer language for people who are new to DeFi.</p><div class="body"><p>Our expert copywriter helps make the LP features <strong>easier to understand for people new to DeFi</strong>, to increase conversions and <strong>lower the barrier to getting started</strong>. Plain language helps people who have never heard of zap mode, fee tiers, or what a narrow price strategy implies.</p>
+<p>This is especially worth it if you see an opportunity to bring Binance users into self-custody. After the hot-wallet breach in October, this may be a good moment.</p><aside class="callout"><span class="c-label">Our recommendation</span><p>For this to work, it needs to carry through to the website, and it involves more stakeholders. So it’s probably worthwhile as a follow-up project, after we’ve proven our value in the first project.</p></aside></div></div>
+<div class="o-ctl">
+<div class="scale" role="radiogroup" aria-label="Involvement for G, Copywriting">
+<button type="button" role="radio" class="off rec" data-level="0" aria-checked="false" aria-label="Off">Off</button>
+<span class="meter"><button type="button" role="radio" class="seg" data-level="1" aria-checked="false" aria-label="Level 1 of 5: A copy review of the key flows, with suggestions."><span>1</span></button><button type="button" role="radio" class="seg" data-level="2" aria-checked="false" aria-label="Level 2 of 5: Rewritten copy for the LP flows."><span>2</span></button><button type="button" role="radio" class="seg" data-level="3" aria-checked="false" aria-label="Level 3 of 5: Rewritten copy for all key flows."><span>3</span></button><button type="button" role="radio" class="seg" data-level="4" aria-checked="false" aria-label="Level 4 of 5: Key flows plus a plain-language glossary and voice guidelines."><span>4</span></button><button type="button" role="radio" class="seg" data-level="5" aria-checked="false" aria-label="Level 5 of 5: A full voice and terminology system across app and website."><span>5</span></button></span>
+</div>
+<div class="ends" aria-hidden="true"><span>Low touch</span><span>High touch</span></div>
+<p class="level-desc" aria-live="polite"></p>
+<p class="rec-note">Our recommendation: off for now</p>
+</div>
+</article>
+<article class="option" id="opt-H" data-key="H" data-rec="0">
+<span class="letter" aria-hidden="true">H</span>
+<div class="o-main"><h3 class="title"><span class="vh">H. </span>Design QA</h3><p class="sum">Reviewing what’s being built against the designs.</p><div class="body"><p>Sometimes this is necessary, but we mostly end up pointing at the designs. There’s a lot of hand-holding, and it’s probably not the best use of our time together.</p>
+<aside class="callout"><span class="c-label">Our recommendation</span><p>With some developers this isn’t necessary at all, with others it’s a very large task that requires a lot of time and patience. However, this is a lot more economically sensible to do with in-house designers, so in your case we recommend against it.</p></aside><p>If you want it, let’s talk and we’ll add it.</p></div></div>
+<div class="o-ctl">
+<div class="scale" role="radiogroup" aria-label="Involvement for H, Design QA">
+<button type="button" role="radio" class="off rec" data-level="0" aria-checked="false" aria-label="Off">Off</button>
+<span class="meter"><button type="button" role="radio" class="seg" data-level="1" aria-checked="false" aria-label="Level 1 of 5: One review of the build before launch."><span>1</span></button><button type="button" role="radio" class="seg" data-level="2" aria-checked="false" aria-label="Level 2 of 5: Reviews at key milestones."><span>2</span></button><button type="button" role="radio" class="seg" data-level="3" aria-checked="false" aria-label="Level 3 of 5: Weekly reviews with annotated issues."><span>3</span></button><button type="button" role="radio" class="seg" data-level="4" aria-checked="false" aria-label="Level 4 of 5: Weekly reviews plus quick answers on edge cases."><span>4</span></button><button type="button" role="radio" class="seg" data-level="5" aria-checked="false" aria-label="Level 5 of 5: Close, ongoing support while your developers build."><span>5</span></button></span>
+</div>
+<div class="ends" aria-hidden="true"><span>Low touch</span><span>High touch</span></div>
+<p class="level-desc" aria-live="polite"></p>
+<p class="rec-note">Our recommendation: off for now</p>
+</div>
+</article>
+      </div>
+    </div>
+  </section>
+
+  <section id="nice-to-have">
+    <div class="wrap">
+      <div class="split">
+        <div class="side"><h2>Nice to Have</h2></div>
+      </div>
+      <div class="options">
+      <article class="option" id="opt-X" data-key="X" data-rec="0">
+<span class="letter" aria-hidden="true">X</span>
+<div class="o-main"><h3 class="title"><span class="vh">X. </span>Design Partnership</h3><p class="sum">Strategy, storytelling and a brand refresh, alongside the app.</p><div class="body"><p>Further ahead, we think a lot can be gained from a <strong>proper multi-day strategy sprint in person</strong>, and we can also help with a full brand refresh.</p><aside class="callout"><span class="c-label">Our recommendation</span><p>We think this is too early. We like to start with a smaller project that helps us get to know each other, and the app is what’s important and urgent now.</p></aside></div></div>
+<div class="o-ctl">
+<div class="scale" role="radiogroup" aria-label="Involvement for X, Design Partnership">
+<button type="button" role="radio" class="off rec" data-level="0" aria-checked="false" aria-label="Off">Off</button>
+<span class="meter"><button type="button" role="radio" class="seg" data-level="1" aria-checked="false" aria-label="Level 1 of 5: A remote strategy workshop."><span>1</span></button><button type="button" role="radio" class="seg" data-level="2" aria-checked="false" aria-label="Level 2 of 5: A multi-day strategy sprint in person."><span>2</span></button><button type="button" role="radio" class="seg" data-level="3" aria-checked="false" aria-label="Level 3 of 5: Strategy sprint plus a storytelling workshop."><span>3</span></button><button type="button" role="radio" class="seg" data-level="4" aria-checked="false" aria-label="Level 4 of 5: Strategy, storytelling and a rebranding workshop."><span>4</span></button><button type="button" role="radio" class="seg" data-level="5" aria-checked="false" aria-label="Level 5 of 5: Strategy, storytelling and a full brand refresh."><span>5</span></button></span>
+</div>
+<div class="ends" aria-hidden="true"><span>Low touch</span><span>High touch</span></div>
+<p class="level-desc" aria-live="polite"></p>
+<p class="rec-note">Our recommendation: off for now</p>
+</div>
+</article>
+      </div>
+    </div>
+  </section>
+
+  <section id="timeline">
+    <div class="wrap">
+      <div class="split">
+        <div class="side"><h2>Timeline</h2></div>
+        <p class="intro">We can start on 17 November. The goal-setting workshop and gamification support start on 30 November, right after Binance Blockchain Week, and the main design work runs through December and January. <strong>Dates are a guide, not fixed.</strong></p>
+      </div>
+      <ul class="legend">
+        <li><i class="l-firm"></i>Planned</li>
+        <li><i class="l-soft"></i>Could move within</li>
+        <li><i class="l-out"></i>Not selected</li>
+      </ul>
+      <div class="scroll-x"><div class="gantt" role="img" aria-label="Timeline from 17 November 2026 to the end of January 2027. Steps 1 to 3 start the week of 17 November. Binance Blockchain Week is on 28 and 29 November. The goal-setting workshop and gamification support start on 30 November. Design work runs through December and January. Dates are approximate.">
+<div class="g-row g-head"><span class="g-label"></span><span class="g-track weeks"><span style="left:6.667%">23 Nov</span><span style="left:13.333%">30 Nov</span><span style="left:20.000%">7 Dec</span><span style="left:26.667%">14 Dec</span><span style="left:33.333%">21 Dec</span><span style="left:40.000%">28 Dec</span><span style="left:46.667%">4 Jan</span><span style="left:53.333%">11 Jan</span><span style="left:60.000%">18 Jan</span><span style="left:66.667%">25 Jan</span><span style="left:73.333%">1 Feb</span><span style="left:80.000%">8 Feb</span><span style="left:86.667%">15 Feb</span><span style="left:93.333%">22 Feb</span></span></div>
+<div class="g-body">
+<span class="g-marker bbw" style="left:calc(var(--lab) + (100% - var(--lab)) * 0.11429);width:calc((100% - var(--lab)) * 0.01905)"><span>Binance Blockchain Week</span></span>
+<span class="g-marker start" style="left:calc(var(--lab) + (100% - var(--lab)) * 0.00952)"><span>Start 17 Nov</span></span>
+<div class="g-row" data-key="1" data-status="in"><span class="g-label"><b>1</b> Understanding</span><span class="g-track"><span class="bar soft" style="left:0.952%;width:14.286%"></span><span class="bar firm" style="left:0.952%;width:10.476%"></span></span></div><div class="g-row" data-key="2" data-status="in"><span class="g-label"><b>2</b> Stakeholder interviews</span><span class="g-track"><span class="bar soft" style="left:0.952%;width:15.238%"></span><span class="bar firm" style="left:1.905%;width:9.524%"></span></span></div><div class="g-row" data-key="3" data-status="in"><span class="g-label"><b>3</b> Audit and competitors</span><span class="g-track"><span class="bar soft" style="left:3.810%;width:18.095%"></span><span class="bar firm" style="left:6.667%;width:11.429%"></span></span></div><div class="g-row" data-key="4" data-status="in"><span class="g-label"><b>4</b> Goal-setting workshop</span><span class="g-track"><span class="bar soft" style="left:7.619%;width:13.333%"></span><span class="bar firm" style="left:13.333%;width:4.762%"></span></span></div><div class="g-row" data-key="5" data-status="in"><span class="g-label"><b>5</b> Visual direction</span><span class="g-track"><span class="bar soft" data-alt="16.190,35.238|13.333,20.952" style="left:16.190%;width:35.238%"></span><span class="bar firm" data-alt="20.000,16.190|13.333,14.286" style="left:20.000%;width:16.190%"></span></span></div><div class="g-row" data-key="6" data-status="in"><span class="g-label"><b>6</b> Product design</span><span class="g-track"><span class="bar soft" data-alt="22.857,48.571|20.000,20.952" style="left:22.857%;width:48.571%"></span><span class="bar firm" data-alt="26.667,38.095|20.000,14.286" style="left:26.667%;width:38.095%"></span></span></div><div class="g-row g-sep" data-key="A" data-status="in"><span class="g-label"><b>A</b> Gamification concept support</span><span class="g-track"><span class="bar soft" style="left:13.333%;width:58.095%"></span><span class="bar firm" style="left:13.333%;width:51.429%"></span></span></div><div class="g-row" data-key="B" data-status="in"><span class="g-label"><b>B</b> Binance Blockchain Week support</span><span class="g-track"><span class="bar soft" style="left:0.952%;width:20.000%"></span><span class="bar firm" style="left:9.524%;width:4.762%"></span></span></div><div class="g-row" data-key="C" data-status="in"><span class="g-label"><b>C</b> User testing and refinement</span><span class="g-track"><span class="bar soft" style="left:46.667%;width:26.667%"></span><span class="bar firm" style="left:53.333%;width:18.095%"></span></span></div><div class="g-row" data-key="D" data-status="in"><span class="g-label"><b>D</b> Platform-native design</span><span class="g-track"><span class="bar soft" style="left:33.333%;width:38.095%"></span><span class="bar firm" style="left:46.667%;width:18.095%"></span></span></div><div class="g-row" data-key="E" data-status="in"><span class="g-label"><b>E</b> Website extension</span><span class="g-track"><span class="bar soft" style="left:46.667%;width:53.333%"></span><span class="bar firm" style="left:53.333%;width:18.095%"></span></span></div><div class="g-row" data-key="F" data-status="in"><span class="g-label"><b>F</b> Motion design</span><span class="g-track"><span class="bar soft" style="left:33.333%;width:38.095%"></span><span class="bar firm" style="left:46.667%;width:18.095%"></span></span></div><div class="g-row" data-key="G" data-status="in"><span class="g-label"><b>G</b> Copywriting</span><span class="g-track"><span class="bar soft" style="left:20.000%;width:44.762%"></span><span class="bar firm" style="left:26.667%;width:31.429%"></span></span></div><div class="g-row" data-key="H" data-status="in"><span class="g-label"><b>H</b> Design QA</span><span class="g-track"><span class="bar soft" style="left:33.333%;width:54.286%"></span><span class="bar firm" style="left:60.000%;width:13.333%"></span></span></div><div class="g-row" data-key="X" data-status="in"><span class="g-label"><b>X</b> Design Partnership</span><span class="g-track"><span class="bar soft" style="left:6.667%;width:93.333%"></span><span class="bar firm" style="left:20.000%;width:80.000%"></span></span></div>
+</div></div></div>
+      <div class="timeline-notes">
+        <div><h3>Week of 17 November</h3><p>Reading up, stakeholder interviews and the start of the audit. Interview script for your booth, if selected.</p></div>
+        <div><h3>Around 28–29 November</h3><p>Binance Blockchain Week. Either we meet in Bangkok or cross fingers for your launch from Europe.</p></div>
+        <div><h3>From 30 November</h3><p>Goal-setting workshop and gamification support, then visual direction and the first key flows.</p></div>
+        <div><h3>January</h3><p>Key flows completed, plus the should haves we’ve selected together.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="next" class="next">
+    <div class="wrap split">
+      <div class="side"><h2>Next steps</h2></div>
+      <div>
+        <ol>
+          <li>Review the recommendation and consider the options.</li>
+          <li>Choose a package, or customize what fits your plans.</li>
+          <li>Contact us or schedule a call on the buttons below.</li>
+          <li>Let’s agree on a plan and build everyone’s favorite DEX App!</li>
+        </ol>
+        <div class="ctas">
+          <a class="cta" href="https://calendar.app.google/qfh1YeDt5vFgWUkz5" target="_blank" rel="noopener">Let’s talk!</a>
+          <a class="cta secondary" href="mailto:eric@we3.co?cc=pierre@we3.co,team@we3.co&amp;subject=PancakeSwap%20proposal">Email WE3</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>WE3, a global collective of designers, strategists and researchers. Probably the best ones in crypto.</span>
+    <span>Prices in EUR. Prepared for PancakeSwap.</span>
+  </div>
+</footer>
+
+<div class="pricebar" id="pricebar" role="region" aria-label="Package and estimate">
+  <div class="wrap pb-row">
+    <div class="pb-pkgs" role="radiogroup" aria-label="Package">
+      <button class="pkg" type="button" role="radio" aria-checked="false" data-pkg="core"><span class="p-name">Core</span><span class="p-price">€47–61k</span></button>
+      <button class="pkg" type="button" role="radio" aria-checked="false" data-pkg="recommended"><span class="p-name">Recommended</span><span class="p-price">€69–83k</span></button>
+      <button class="pkg" type="button" role="radio" aria-checked="false" data-pkg="custom"><span class="p-name">Custom</span><span class="p-price">€65–189k</span></button>
+      <button class="pkg" type="button" role="radio" aria-checked="false" data-pkg="partner"><span class="p-name">Design Partner</span><span class="p-price">€120–300k</span></button>
+    </div>
+    <div class="pb-est" aria-live="polite"><span class="e-label">Ballpark Estimation:</span><span class="e-price" data-est>€65–79k</span></div>
+  </div>
+  <div class="wrap pb-note">
+    <div class="pb-left"><span data-desc></span><span class="pb-flag" data-note hidden></span></div>
+    <span class="pb-disc">Final calculation after we align on initial project scope.</span>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var OPT = {"A": {"title": "Gamification concept support", "rec": 4, "levels": ["Feedback on your existing concept from a design perspective.", "Exploration: ideas for how gamification could show up in the app, for your team to take further.", "Several concept directions explored with you, shown in the key flows.", "Shaping the concept together in regular sessions, designed into the key flows.", "Co-creating the full concept with you, from goals and incentive mechanics to every reward moment."], "off": ""}, "B": {"title": "Binance Blockchain Week support", "rec": 3, "levels": ["An interview script for your booth team. BBW is busy enough for you, we understand.", "Script, a short briefing for your booth team, and a readout. BBW is busy enough for you, we understand.", "We come to Bangkok, meet your team in person and run a first round of our own interviews.", "A full day of our own WE3-branded interviews, plus a session comparing notes with your team.", "A few days of our own interviews, the script and readout for your booth team, and a joint session comparing notes."], "off": " BBW is busy enough for you, we understand."}, "C": {"title": "User testing and refinement", "rec": 2, "levels": ["One quick round with a few users on the riskiest flow.", "One round with around five users on the riskiest flows, then refinements.", "Two rounds: test, refine, retest.", "Two rounds across a wider set of flows.", "Ongoing testing across all key flows, with refinements after each round."], "off": ""}, "D": {"title": "Platform-native design", "rec": 1, "levels": ["The necessary adjustments so the app works well on both platforms, but you don’t end up maintaining three apps.", "Small adjustments in visual style to fit each platform.", "Platform-specific patterns for key interactions, like navigation and sheets.", "Separate designs of the key flows for each platform.", "A whole new design for each platform."], "off": ""}, "E": {"title": "Website extension", "rec": 1, "levels": ["Figma components your designers can reuse and adapt.", "A single key screen, to stress-test the new direction on desktop.", "A few key screens across the website.", "A redesign of some main parts of the website.", "A redesign of the whole website, best as a follow-up project."], "off": ""}, "F": {"title": "Motion design", "rec": 2, "levels": ["Small refinements to existing motion, based on best practice.", "One or two key moments, plus small refinements to what’s there.", "Several key moments across the main flows.", "Motion principles for the app, with the key moments designed.", "Full motion guidelines including a comprehensive set of animations."], "off": ""}, "G": {"title": "Copywriting", "rec": 0, "levels": ["A copy review of the key flows, with suggestions.", "Rewritten copy for the LP flows.", "Rewritten copy for all key flows.", "Key flows plus a plain-language glossary and voice guidelines.", "A full voice and terminology system across app and website."], "off": ""}, "H": {"title": "Design QA", "rec": 0, "levels": ["One review of the build before launch.", "Reviews at key milestones.", "Weekly reviews with annotated issues.", "Weekly reviews plus quick answers on edge cases.", "Close, ongoing support while your developers build."], "off": ""}, "X": {"title": "Design Partnership", "rec": 0, "levels": ["A remote strategy workshop.", "A multi-day strategy sprint in person.", "Strategy sprint plus a storytelling workshop.", "Strategy, storytelling and a rebranding workshop.", "Strategy, storytelling and a full brand refresh."], "off": ""}};
+  var KEYS = Object.keys(OPT);
+
+  /* Pricing, thousands of EUR. Edit here. */
+  var BASE_MID = 50;   /* Core midpoint */
+  var COST = {         /* midpoint cost of each option at levels 1 to 5 */
+    A: [2, 3.5, 5, 6, 9],
+    B: [1.5, 3, 6, 10, 15],
+    C: [1, 3, 6, 9, 12],
+    D: [1, 3, 5, 8, 15],
+    E: [1, 3, 12, 20, 30],
+    F: [3, 8, 12, 15, 21],
+    G: [1.5, 6, 12, 15, 20],
+    H: [3, 6, 9, 10, 15],
+    X: [30, 50, 80, 120, 200]
+  };
+  var PACKAGES = {
+    core:        { name: "Core",               range: [47, 61],   desc: "Core: The must have activities to deliver WE3 quality. Few revisions." },
+    recommended: { name: "Recommended",        range: null,       desc: "Recommended: Core + Where we want to go beyond a standard app redesign." },
+    custom:      { name: "Custom",             range: null,       desc: "Custom: Core + The options as you’ve set them. The price estimate follows your settings.", note: "Note: Only a vague estimate that has to be scoped with the resp. experts." },
+    partner:     { name: "Design Partnership", range: [120, 300], desc: "Design Partner: three to four months. Everything above, plus strategy, storytelling and a brand refresh." }
+  };
+  function preset(fn) { var o = {}; KEYS.forEach(function (k) { o[k] = fn(k); }); return o; }
+  var PRESETS = {
+    core: preset(function () { return 0; }),
+    recommended: preset(function (k) { return OPT[k].rec; }),
+    partner: { A: 5, B: 5, C: 3, D: 2, E: 3, F: 4, G: 4, H: 3, X: 5 }
+  };
+
+  var state = { pkg: "recommended", levels: Object.assign({}, PRESETS.recommended), custom: Object.assign({}, PRESETS.recommended) };
+
+  /* Day / night */
+  var TKEY = "we3-pcs-theme";
+  var sw = document.getElementById("themeSwitch");
+  var mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  function isDark() { var t = root.getAttribute("data-theme"); return t ? t === "dark" : !!(mq && mq.matches); }
+  function syncSwitch() { sw.setAttribute("aria-checked", isDark() ? "true" : "false"); }
+  try { var saved = localStorage.getItem(TKEY); if (saved === "dark" || saved === "light") root.setAttribute("data-theme", saved); } catch (e) {}
+  syncSwitch();
+  if (mq && mq.addEventListener) mq.addEventListener("change", syncSwitch);
+  sw.addEventListener("click", function () {
+    var next = isDark() ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem(TKEY, next); } catch (e) {}
+    syncSwitch();
+  });
+
+  var head = document.querySelector(".site-head");
+  function onScroll() { head.classList.toggle("scrolled", window.scrollY > 8); }
+  window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  /* Keep page padding equal to the price bar height */
+  var bar = document.getElementById("pricebar");
+  function sizeBar() { root.style.setProperty("--bar-h", bar.offsetHeight + "px"); }
+  if (window.ResizeObserver) new ResizeObserver(sizeBar).observe(bar); sizeBar();
+
+  function fmt(r) { return "€" + r[0] + "–" + r[1] + "k"; }
+  function estimate() {
+    var p = PACKAGES[state.pkg];
+    if (p.range) return p.range;
+    var mid = BASE_MID;
+    KEYS.forEach(function (k) { var l = state.levels[k]; if (l > 0) mid += COST[k][l - 1]; });
+    if (mid === BASE_MID) return PACKAGES.core.range;
+    var lo = Math.min(164, Math.round(mid * 0.92)), hi = Math.min(500, Math.max(lo + 5, Math.round(mid * 1.1)));
+    return [lo, hi];
+  }
+
+  var cards = document.querySelectorAll(".pkg");
+  var opts = {};
+  document.querySelectorAll(".option").forEach(function (el) { opts[el.dataset.key] = el; });
+  var gRows = {};
+  document.querySelectorAll(".g-row[data-key]").forEach(function (r) { gRows[r.dataset.key] = r; });
+
+  function render() {
+    KEYS.forEach(function (k) {
+      var el = opts[k], lvl = state.levels[k];
+      el.setAttribute("data-level", lvl);
+      el.querySelectorAll(".scale [data-level]").forEach(function (b) {
+        var bl = +b.dataset.level, on = bl === lvl;
+        b.setAttribute("aria-checked", on ? "true" : "false");
+        b.tabIndex = on ? 0 : -1;
+        if (b.classList.contains("seg")) b.classList.toggle("fill", bl <= lvl);
+      });
+      var desc = el.querySelector(".level-desc");
+      desc.innerHTML = lvl === 0 ? "<b>Off.</b> Not part of this project." + OPT[k].off : "<b>" + lvl + "/5.</b> " + OPT[k].levels[lvl - 1];
+      if (gRows[k]) gRows[k].setAttribute("data-status", lvl > 0 ? "in" : "out");
+    });
+    document.querySelectorAll(".bar[data-alt]").forEach(function (bar) {
+      var v = bar.getAttribute("data-alt").split("|")[state.pkg === "core" ? 1 : 0].split(",");
+      bar.style.left = v[0] + "%"; bar.style.width = v[1] + "%";
+    });
+    cards.forEach(function (c) { var on = c.dataset.pkg === state.pkg; c.setAttribute("aria-checked", on ? "true" : "false"); c.tabIndex = on ? 0 : -1; });
+    document.querySelector("[data-est]").textContent = fmt(estimate());
+    document.querySelector("[data-desc]").textContent = PACKAGES[state.pkg].desc;
+    var note = document.querySelector("[data-note]"), nt = PACKAGES[state.pkg].note || "";
+    note.textContent = nt; note.hidden = !nt;
+  }
+
+  function setLevel(k, lvl) {
+    state.levels[k] = Math.max(0, Math.min(5, lvl));
+    state.pkg = "custom";
+    state.custom = Object.assign({}, state.levels);
+    render();
+  }
+  function choose(pkg) {
+    state.pkg = pkg;
+    state.levels = Object.assign({}, pkg === "custom" ? state.custom : PRESETS[pkg]);
+    render();
+  }
+
+  KEYS.forEach(function (k) {
+    var el = opts[k];
+    el.querySelectorAll(".scale [data-level]").forEach(function (b) {
+      b.addEventListener("click", function () { setLevel(k, +b.dataset.level); });
+      b.addEventListener("keydown", function (e) {
+        var d = 0;
+        if (e.key === "ArrowRight" || e.key === "ArrowUp") d = 1;
+        if (e.key === "ArrowLeft" || e.key === "ArrowDown") d = -1;
+        if (!d) return;
+        e.preventDefault();
+        setLevel(k, state.levels[k] + d);
+        el.querySelector('.scale [data-level="' + state.levels[k] + '"]').focus();
+      });
+    });
+  });
+  cards.forEach(function (c) {
+    c.addEventListener("click", function () { choose(c.dataset.pkg); });
+    c.addEventListener("keydown", function (e) {
+      var list = Array.prototype.slice.call(cards), i = list.indexOf(c), j = -1;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") j = (i + 1) % list.length;
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") j = (i - 1 + list.length) % list.length;
+      if (j > -1) { e.preventDefault(); choose(list[j].dataset.pkg); list[j].focus(); }
+    });
+  });
+
+  /* Project previews on hover */
+  var shots = {};
+  document.querySelectorAll(".shots img").forEach(function (im) { shots[im.dataset.shot] = im; });
+  document.querySelectorAll(".ref").forEach(function (el) {
+    var k = el.dataset.ref;
+    function show() { for (var s in shots) shots[s].classList.toggle("on", s === k); el.classList.add("on"); }
+    function hide() { if (shots[k]) shots[k].classList.remove("on"); el.classList.remove("on"); }
+    el.addEventListener("mouseenter", show); el.addEventListener("mouseleave", hide);
+    el.addEventListener("focus", show); el.addEventListener("blur", hide);
+  });
+  window.addEventListener("load", function () { for (var s in shots) { var p = new Image(); p.src = shots[s].src; } });
+
+  var h = (location.hash || "").replace("#", "");
+  choose(PRESETS[h] ? h : "recommended");
+})();
+</script>
+</body>
+</html>
