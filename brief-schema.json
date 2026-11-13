@@ -1,0 +1,322 @@
+{
+  "meta": {
+    "version": "1.1",
+    "updated": "2026-11-13",
+    "purpose": "Inbound classifier — parses a client's first contact (email, form, Telegram) and extracts structured fields. The BD lead does not fill this form; the system extracts what it can from the client message, then outputs: (1) a draft Telegram brief for the WE3 team (BD reviews and sends), (2) a draft proposal HTML starting from first contact if the brief qualifies, (3) a draft email to the client if key qualification fields are missing (PM sends manually). Proposal generation starts immediately on first contact and refines continuously as more signals arrive.",
+    "pipeline": "client inbound → field extraction → qualification check → [qualified: proposal draft + Telegram] / [partial: flagged Telegram + email draft for PM to send] / [fail: redirect Telegram + email draft]"
+  },
+
+  "brief": {
+    "fields": {
+
+      "_qualification": {
+        "_note": "All required. Any fail blocks proposal generation."
+      },
+      "client_name":             { "type": "string",  "required": true },
+      "contact_name":            { "type": "string",  "required": false, "note": "Name of the person who reached out" },
+      "contact_role":            { "type": "string",  "required": false, "note": "Their role at the client (e.g. 'Product Lead')" },
+      "bd_lead":                 { "type": "string",  "required": true },
+      "task_description":        { "type": "string",  "required": false, "note": "Verbatim or summarized task from the client's inbound message — used as the Task section of the Telegram draft" },
+      "client_links":            { "type": "array",   "required": false, "note": "Any links the client shared (PWA, TestFlight, staging, etc.) — included in Telegram draft" },
+      "bd_read":                 { "type": "string",  "required": false, "note": "BD lead's strategic interpretation of the opportunity — the Background/TLDR sections in the Telegram draft. Only BD writes this; it is not extracted from the client message." },
+      "budget_min_k":            { "type": "number",  "required": true,  "note": "Client's stated or inferred floor budget in k EUR" },
+      "timeline_weeks":          { "type": "number",  "required": true,  "note": "Weeks available for the engagement" },
+      "decision_maker_access":   { "type": "boolean", "required": true,  "note": "Can WE3 interview stakeholders directly?" },
+      "product_exists":          { "type": "boolean", "required": true,  "note": "Is there an existing product or defined concept to design from?" },
+
+      "_context": {
+        "_note": "Shapes the core module effort and proposal narrative."
+      },
+      "sector":                  { "type": "string",  "required": false },
+      "product_type":            { "type": "enum",    "values": ["mobile_app", "web_app", "platform", "website", "other"] },
+      "platforms":               { "type": "array",   "values": ["ios", "android", "web", "desktop"], "note": "All platforms in scope" },
+      "product_maturity":        { "type": "enum",    "values": ["concept", "mvp", "live"],            "note": "Current state of the product" },
+      "has_design_system":       { "type": "boolean", "note": "Client has an existing design system or component library" },
+      "has_internal_designers":  { "type": "boolean", "note": "Client has in-house designers who will continue after WE3 hands off" },
+      "has_dev_team":            { "type": "boolean", "note": "Client has developers who will build from WE3's output" },
+
+      "_signals": {
+        "_note": "Each true signal activates the matching module. The detail field drives the level selection."
+      },
+
+      "gamification":            { "type": "boolean", "note": "Project involves gamification mechanics" },
+      "gamification_maturity":   { "type": "enum",    "values": ["concept_exists", "needs_exploration", "needs_design", "co-create", "full_system"],
+                                   "note": "How developed the gamification concept already is; determines level 1–5 for option A" },
+
+      "upcoming_event":          { "type": "boolean", "note": "Client has an event (conference, launch) during the engagement" },
+      "event_days_we3":          { "type": "number",  "note": "Number of days WE3 would attend the event; 0 = script only, 1 = full day, 2+ = multi-day" },
+
+      "needs_user_testing":      { "type": "boolean" },
+      "testing_depth":           { "type": "enum",    "values": ["quick_round", "one_round", "two_rounds", "two_rounds_wide", "ongoing"],
+                                   "note": "Determines level 1–5 for option C" },
+
+      "includes_website":        { "type": "boolean", "note": "Web presence is in scope alongside the product" },
+      "website_scope":           { "type": "enum",    "values": ["components", "single_screen", "key_pages", "partial_redesign", "full_redesign"],
+                                   "note": "Determines level 1–5 for option E" },
+
+      "needs_motion":            { "type": "boolean" },
+      "motion_scope":            { "type": "enum",    "values": ["refinements", "key_moments", "several_moments", "motion_principles", "full_system"],
+                                   "note": "Determines level 1–5 for option F" },
+
+      "needs_copy":              { "type": "boolean" },
+      "copy_scope":              { "type": "enum",    "values": ["review", "key_flows", "all_flows", "guidelines", "full_system"],
+                                   "note": "Determines level 1–5 for option G" },
+
+      "has_dev_build_in_flight": { "type": "boolean", "note": "Dev team will be building during or immediately after WE3's design phase" },
+      "qa_cadence":              { "type": "enum",    "values": ["pre_launch", "milestones", "weekly", "weekly_plus", "close_support"],
+                                   "note": "Determines level 1–5 for option H" },
+
+      "needs_strategy":          { "type": "boolean", "note": "Engagement requires brand or product strategy beyond the core" },
+      "strategy_scope":          { "type": "enum",    "values": ["remote_workshop", "in_person_sprint", "sprint_plus_storytelling", "sprint_plus_brand", "full_refresh"],
+                                   "note": "Determines level 1–5 for option X" }
+    }
+  },
+
+  "qualification_rules": [
+    {
+      "field": "budget_min_k",
+      "rule": ">=",
+      "value": 47,
+      "fail": "Budget below WE3 core minimum (€47k). Cannot generate a proposal."
+    },
+    {
+      "field": "timeline_weeks",
+      "rule": ">=",
+      "value": 8,
+      "fail": "Timeline too short for a core engagement. Minimum 8 weeks required."
+    },
+    {
+      "field": "decision_maker_access",
+      "rule": "===",
+      "value": true,
+      "fail": "No access to decision-maker. Stakeholder interviews are core and cannot be skipped."
+    },
+    {
+      "field": "product_exists",
+      "rule": "===",
+      "value": true,
+      "fail": "No product or concept to design from. WE3 needs a foundation to audit and build on."
+    }
+  ],
+
+  "module_rules": [
+    {
+      "option": "A",
+      "trigger": "gamification === true",
+      "level_map": {
+        "gamification_maturity": {
+          "concept_exists":   1,
+          "needs_exploration": 2,
+          "needs_design":     3,
+          "co-create":        4,
+          "full_system":      5
+        }
+      }
+    },
+    {
+      "option": "B",
+      "trigger": "upcoming_event === true",
+      "level_map": {
+        "event_days_we3": {
+          "0":   1,
+          "0.5": 2,
+          "1":   3,
+          "2":   4,
+          "3+":  5
+        }
+      }
+    },
+    {
+      "option": "C",
+      "trigger": "needs_user_testing === true",
+      "level_map": {
+        "testing_depth": {
+          "quick_round":      1,
+          "one_round":        2,
+          "two_rounds":       3,
+          "two_rounds_wide":  4,
+          "ongoing":          5
+        }
+      }
+    },
+    {
+      "option": "D",
+      "trigger": "platforms contains both 'ios' and 'android'",
+      "level_map": {
+        "_note": "Level scales with how differently each platform needs to be treated.",
+        "default_level": 1,
+        "if_platforms_includes_web_also": 3,
+        "if_full_separate_designs_needed": 5
+      }
+    },
+    {
+      "option": "E",
+      "trigger": "includes_website === true",
+      "level_map": {
+        "website_scope": {
+          "components":        1,
+          "single_screen":     2,
+          "key_pages":         3,
+          "partial_redesign":  4,
+          "full_redesign":     5
+        }
+      }
+    },
+    {
+      "option": "F",
+      "trigger": "needs_motion === true",
+      "level_map": {
+        "motion_scope": {
+          "refinements":        1,
+          "key_moments":        2,
+          "several_moments":    3,
+          "motion_principles":  4,
+          "full_system":        5
+        }
+      }
+    },
+    {
+      "option": "G",
+      "trigger": "needs_copy === true",
+      "level_map": {
+        "copy_scope": {
+          "review":      1,
+          "key_flows":   2,
+          "all_flows":   3,
+          "guidelines":  4,
+          "full_system": 5
+        }
+      }
+    },
+    {
+      "option": "H",
+      "trigger": "has_dev_build_in_flight === true",
+      "level_map": {
+        "qa_cadence": {
+          "pre_launch":    1,
+          "milestones":    2,
+          "weekly":        3,
+          "weekly_plus":   4,
+          "close_support": 5
+        }
+      }
+    },
+    {
+      "option": "X",
+      "trigger": "needs_strategy === true",
+      "level_map": {
+        "strategy_scope": {
+          "remote_workshop":          1,
+          "in_person_sprint":         2,
+          "sprint_plus_storytelling": 3,
+          "sprint_plus_brand":        4,
+          "full_refresh":             5
+        }
+      }
+    }
+  ],
+
+  "outputs": {
+    "_note": "What the system generates from an extracted brief. All three are drafts — BD/PM reviews before anything is sent.",
+
+    "telegram_draft": {
+      "_note": "Auto-drafted Telegram message posted to the WE3 team channel. BD reviews and sends. Mirrors the format of the PancakeSwap example brief. Sections in ALL CAPS are auto-filled; sections marked [BD] require the BD lead to write.",
+      "format": [
+        "Project: {client_name}",
+        "",
+        "Confidential: everything in this post stays inside the team. Please don't share the links or any details with anyone.",
+        "",
+        "{client_links — one per line, with label}",
+        "",
+        "Task:",
+        "{task_description}",
+        "",
+        "Timeline:",
+        "{timeline summary derived from timeline_weeks + any event dates}",
+        "",
+        "TLDR: [BD — extracted from client message, BD edits for accuracy and tone]",
+        "",
+        "Background: [BD — strategic read, key contacts, dynamics, budget signals]",
+        "",
+        "Team:",
+        "{roles derived from module_rules — e.g. '1–2 UX/product designers + 1 brand/visual designer'}",
+        "{timezone note if sector or client_links suggest it}",
+        "",
+        "Qualification: {PASS / PARTIAL — missing: field1, field2 / FAIL — reason}",
+        "Modules triggered: {A:L4, B:L3, C:L2 ... or 'extracting — awaiting more signals'}",
+        "",
+        "Next step:",
+        "— {auto-drafted from qualification status and triggered modules}",
+        "— [BD — add specific actions, calls, adds to group, etc.]"
+      ]
+    },
+
+    "draft_proposal": {
+      "_note": "If qualification_rules all pass: render proposal HTML immediately from catalogue.json at the levels triggered by module_rules. Proposal is a living draft — it refines automatically as new signal fields arrive. Missing optional modules are simply absent, not blocked.",
+      "trigger": "all qualification_rules pass",
+      "source": "catalogue.json modules at levels from module_rules",
+      "lifecycle": "first_contact → draft (core only) → refines as signals arrive → final on scope agreement"
+    },
+
+    "email_missing_fields": {
+      "_note": "If any qualification_rules fail: draft an email for the PM to review and send manually. Only asks for the specific fields that failed — not the full list.",
+      "trigger": "one or more qualification_rules fail",
+      "template": {
+        "subject": "Re: {client_name} — a few quick questions before we put together a proposal",
+        "body": "Hi {contact_name},\n\nThanks for reaching out — the project sounds exciting.\n\nTo put together a meaningful proposal, we have a few quick questions:\n\n{missing_fields_as_questions}\n\nWe'll have a first draft ready as soon as we have these.\n\n— {bd_lead}, WE3"
+      },
+      "field_questions": {
+        "budget_min_k":          "What's the rough budget range you're working with? Our engagements typically start at €50k.",
+        "timeline_weeks":        "What's your ideal timeline for the engagement? We need at least 8 weeks to do the work justice.",
+        "decision_maker_access": "Would we be able to speak with key stakeholders directly early on — a quick interview to make sure we're designing for the right problems?",
+        "product_exists":        "Is there an existing product or defined concept we'd be designing from, or would we be starting from scratch?"
+      }
+    }
+  },
+
+  "example_pancakeswap": {
+    "_note": "The PancakeSwap brief that produced WE3-PancakeSwap-AppProposal.html. Use this to validate that module_rules produce the correct recommended levels.",
+    "client_name":             "PancakeSwap",
+    "contact_name":            "Miso",
+    "contact_role":            "Product Lead",
+    "bd_lead":                 "Eric",
+    "task_description":        "Full design of PancakeSwap's new mobile app (the PWA uses the same design): UX, architecture, flows and visual design. The app is also their playground for a bolder look, so brand work on the app is part of it. A light refresh of the website may follow, so app and site still read as the same product.",
+    "client_links":            ["https://pancakeswap-pwa.pancake.run", "https://testflight.apple.com/join/hveubcCb"],
+    "bd_read":                 "PancakeSwap is one of the biggest DEXs. Most of their users reach them through Binance Wallet or Trust Wallet — PancakeSwap is worried about becoming a commodity. So they're building their own self-custodial wallet app to own their users. LP is the focus: their data shows LP users come back 3–4× more often than swap-only users, and today LPs track positions on mobile but switch to desktop to manage them. The in-house design team is coming off the app (one on mat leave, one moving to other work), so we'd own app design end to end. The CEO owns brand and signs off. I pushed back on going too bold visually — if the app looks too different from the website, users stop trusting it. Miso ended the call with: 'imagine I'm already sold.'",
+    "budget_min_k":            80,
+    "timeline_weeks":          16,
+    "decision_maker_access":   true,
+    "product_exists":          true,
+    "sector":                  "DeFi / crypto",
+    "product_type":            "platform",
+    "platforms":               ["ios", "android", "web"],
+    "product_maturity":        "live",
+    "has_design_system":       false,
+    "has_internal_designers":  false,
+    "has_dev_team":            true,
+    "gamification":            true,
+    "gamification_maturity":   "co-create",
+    "upcoming_event":          true,
+    "event_days_we3":          1,
+    "needs_user_testing":      true,
+    "testing_depth":           "one_round",
+    "includes_website":        true,
+    "website_scope":           "components",
+    "needs_motion":            true,
+    "motion_scope":            "key_moments",
+    "needs_copy":              false,
+    "has_dev_build_in_flight": false,
+    "needs_strategy":          false,
+    "_expected_output": {
+      "A": 4,
+      "B": 3,
+      "C": 2,
+      "D": 1,
+      "E": 1,
+      "F": 2,
+      "G": 0,
+      "H": 0,
+      "X": 0
+    }
+  }
+}
